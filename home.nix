@@ -108,6 +108,7 @@
     settings = {
       pane_frames = false;
       default_layout = "compact";
+      default_shell = "zsh";
     };
   };
 
