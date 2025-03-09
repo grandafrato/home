@@ -6,8 +6,8 @@
   nixvim,
   ...
 }: {
-  home.username = "lwilger";
-  home.homeDirectory = "/home/lwilger";
+  home.username = "lachlan";
+  home.homeDirectory = "/home/lachlan";
 
   home.stateVersion = "24.11";
 
@@ -18,8 +18,17 @@
   nixGL.packages = nixgl.packages;
   nixGL.defaultWrapper = "mesa";
   nixGL.installScripts = ["mesa"];
+  nixGL.vulkan.enable = true;
 
   programs.home-manager.enable = true;
+
+  home.packages = with pkgs; [
+    (config.lib.nixGL.wrap blender-hip)
+    (config.lib.nixGL.wrap feather)
+    (config.lib.nixGL.wrap rpcs3)
+    monero-cli
+    (callPackage ./p2pool.nix {})
+  ];
 
   programs.zsh = {
     enable = true;
@@ -40,8 +49,8 @@
       # nix-shell use zsh
       nix-shell = "nix-shell --run ${pkgs.zsh}/bin/zsh";
     };
-    # run zsh in a nix develop environment
     initExtra = ''
+      # run zsh in nix develop environments
       nix() {
         if [[ $1 == "develop" ]]; then
           shift
@@ -50,8 +59,13 @@
           command nix "$@"
         fi
       }
+      # Color ls command and derivatives
+      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
     '';
-    sessionVariables.EDITOR = "nvim";
+    sessionVariables = {
+      EDITOR = "nvim";
+      LS_COLORS = builtins.readFile ./dircolors.default;
+    };
   };
 
   stylix = {

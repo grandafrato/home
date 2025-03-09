@@ -38,7 +38,7 @@
       config.allowUnfree = true;
     };
   in {
-    homeConfigurations."lwilger" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
       extraSpecialArgs = {
