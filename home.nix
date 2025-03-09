@@ -5,7 +5,8 @@
   nixgl,
   nixvim,
   ...
-}: {
+}:
+{
   home.username = "lachlan";
   home.homeDirectory = "/home/lachlan";
 
@@ -13,11 +14,11 @@
 
   targets.genericLinux.enable = true;
 
-  imports = [nixvim.homeManagerModules.nixvim];
+  imports = [ nixvim.homeManagerModules.nixvim ];
 
   nixGL.packages = nixgl.packages;
   nixGL.defaultWrapper = "mesa";
-  nixGL.installScripts = ["mesa"];
+  nixGL.installScripts = [ "mesa" ];
   nixGL.vulkan.enable = true;
 
   programs.home-manager.enable = true;
@@ -27,7 +28,7 @@
     (config.lib.nixGL.wrap feather)
     (config.lib.nixGL.wrap rpcs3)
     monero-cli
-    (callPackage ./p2pool.nix {})
+    (callPackage ./p2pool.nix { })
   ];
 
   programs.zsh = {
@@ -134,7 +135,10 @@
       key = "2EE29D3CE347115D";
       signByDefault = true;
     };
-    ignores = ["*~" "*.swp"];
+    ignores = [
+      "*~"
+      "*.swp"
+    ];
     extraConfig.init.defaultBranch = "main";
   };
 }

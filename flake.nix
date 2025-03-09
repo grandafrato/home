@@ -17,35 +17,36 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    alejandra = {
-      url = "github:kamadorueda/alejandra/3.1.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = {
-    nixpkgs,
-    home-manager,
-    stylix,
-    nixgl,
-    nixvim,
-    alejandra,
-    ...
-  }: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-  in {
-    homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-
-      extraSpecialArgs = {
-        inherit nixgl nixvim;
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      stylix,
+      nixgl,
+      nixvim,
+      ...
+    }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
       };
-      modules = [stylix.homeManagerModules.stylix ./home.nix];
+    in
+    {
+      homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        extraSpecialArgs = {
+          inherit nixgl nixvim;
+        };
+        modules = [
+          stylix.homeManagerModules.stylix
+          ./home.nix
+        ];
+      };
+      formatter.${system} = pkgs.nixfmt-rfc-style;
     };
-    formatter.${system} = alejandra.defaultPackage.${system};
-  };
 }
