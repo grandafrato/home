@@ -18,7 +18,11 @@
         };
         elixirls.enable = true;
         nil_ls.enable = true;
-        zls.enable = true;
+        zls = {
+          enable = true;
+          package = null;
+          cmd = [ "zls" ];
+        };
         glsl_analyzer.enable = true;
         gleam.enable = true;
       };
