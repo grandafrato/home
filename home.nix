@@ -29,6 +29,7 @@
     (config.lib.nixGL.wrap rpcs3)
     monero-cli
     (callPackage ./p2pool.nix { })
+    tree
   ];
 
   programs.zsh = {
