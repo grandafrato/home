@@ -1,7 +1,6 @@
 let
   betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
-in
-{
+in {
   enable = true;
   settings.minibar = {
     layer = "top";
@@ -13,7 +12,7 @@ in
       "hyprland/workspaces"
       "idle_inhibitor"
     ];
-    modules-center = [ "hyprland/window" ];
+    modules-center = ["hyprland/window"];
     modules-right = [
       "wireplumber"
       "backlight"

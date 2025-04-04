@@ -22,46 +22,43 @@
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      stylix,
-      nixgl,
-      nixvim,
-      auto-cpufreq,
-      hyprland,
-      nixos-hardware,
-      ...
-    } @ inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    in
-    {
-      homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        extraSpecialArgs = {
-          inherit nixgl nixvim;
-        };
-        modules = [
-          stylix.homeManagerModules.stylix
-          ./home.nix
-        ];
-      };
-      nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          auto-cpufreq.nixosModules.default
-          nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
-          nixos-hardware.nixosModules.common-gpu-amd
-        ];
-      };
-      formatter.${system} = pkgs.alejandra;
+  outputs = {
+    nixpkgs,
+    home-manager,
+    stylix,
+    nixgl,
+    nixvim,
+    auto-cpufreq,
+    hyprland,
+    nixos-hardware,
+    ...
+  } @ inputs: let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
     };
+  in {
+    homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+
+      extraSpecialArgs = {
+        inherit nixgl nixvim;
+      };
+      modules = [
+        stylix.homeManagerModules.stylix
+        ./home.nix
+      ];
+    };
+    nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./configuration.nix
+        auto-cpufreq.nixosModules.default
+        nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+        nixos-hardware.nixosModules.common-gpu-amd
+      ];
+    };
+    formatter.${system} = pkgs.alejandra;
+  };
 }

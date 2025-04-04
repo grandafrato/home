@@ -58,7 +58,7 @@
         };
         indent = {
           enable = true;
-          disable = [ "ruby" ];
+          disable = ["ruby"];
         };
       };
     };
@@ -110,7 +110,7 @@
   };
   autoCmd = [
     {
-      event = [ "TextYankPost" ];
+      event = ["TextYankPost"];
       desc = "Highlight when yanking text";
       group = "kickstart-highlight-yank";
       callback.__raw = ''

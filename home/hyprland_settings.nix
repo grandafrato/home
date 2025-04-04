@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Monitor Settings
   monitor = [
     "eDP-1,preferred,auto,1"
@@ -112,19 +111,17 @@
     ]
     ++ (builtins.concatLists (
       builtins.genList (
-        x:
-        let
-          ws =
-            let
-              c = (x + 1) / 10;
-            in
+        x: let
+          ws = let
+            c = (x + 1) / 10;
+          in
             builtins.toString (x + 1 - (c * 10));
-        in
-        [
+        in [
           "$mod, ${ws}, workspace, ${toString (x + 1)}"
           "$mod_shift, ${ws}, movetoworkspace, ${toString (x + 1)}"
         ]
-      ) 10
+      )
+      10
     ));
 
   # Media Control
@@ -143,5 +140,5 @@
   ];
 
   # Prevent Maximize Event
-  windowrulev2 = [ "suppressevent maximize, class:.*" ];
+  windowrulev2 = ["suppressevent maximize, class:.*"];
 }

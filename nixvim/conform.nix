@@ -1,11 +1,10 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   plugins.conform-nvim = {
     enable = true;
     settings = {
       notify_on_error = false;
       formatters_by_ft = {
-        nix = [ "${pkgs.nixfmt-rfc-style}/bin/nixfmt" ];
+        nix = ["${pkgs.nixfmt-rfc-style}/bin/nixfmt"];
       };
       format_on_save = ''
         function(bufnr)

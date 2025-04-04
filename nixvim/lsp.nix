@@ -21,7 +21,7 @@
         zls = {
           enable = true;
           package = null;
-          cmd = [ "zls" ];
+          cmd = ["zls"];
         };
         glsl_analyzer.enable = true;
         gleam.enable = true;

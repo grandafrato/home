@@ -1,15 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 {
   inputs,
   config,
   pkgs,
   ...
-}:
-
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -81,7 +78,7 @@
       "networkmanager"
       "wheel"
     ];
-    packages = with pkgs; [ ];
+    packages = with pkgs; [];
   };
 
   # Allow unfree packages
@@ -153,33 +150,29 @@
     git
   ];
 
-  programs.hyprland =
-    let
-      hyprpkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
-    in
-    {
-      enable = true;
-      package = hyprpkgs.hyprland;
-      portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
-    };
+  programs.hyprland = let
+    hyprpkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
+  in {
+    enable = true;
+    package = hyprpkgs.hyprland;
+    portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
+  };
 
   services.displayManager.ly.enable = true;
 
-  services.interception-tools =
-    let
-      itools = pkgs.interception-tools;
-      itools-caps = pkgs.interception-tools-plugins.caps2esc;
-    in
-    {
-      enable = true;
-      plugins = [ itools-caps ];
-      udevmonConfig = pkgs.lib.mkDefault ''
-        - JOB: "${itools}/bin/intercept -g $DEVNODE | ${itools-caps}/bin/caps2esc -m 0 | ${itools}/bin/uinput -d $DEVNODE"
-          DEVICE:
-            EVENTS:
-              EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-      '';
-    };
+  services.interception-tools = let
+    itools = pkgs.interception-tools;
+    itools-caps = pkgs.interception-tools-plugins.caps2esc;
+  in {
+    enable = true;
+    plugins = [itools-caps];
+    udevmonConfig = pkgs.lib.mkDefault ''
+      - JOB: "${itools}/bin/intercept -g $DEVNODE | ${itools-caps}/bin/caps2esc -m 0 | ${itools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          EVENTS:
+            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+    '';
+  };
 
   programs.steam = {
     enable = true;
@@ -216,5 +209,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }

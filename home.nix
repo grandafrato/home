@@ -5,18 +5,17 @@
   nixgl,
   nixvim,
   ...
-}:
-{
+}: {
   home.username = "lachlan";
   home.homeDirectory = "/home/lachlan";
 
   home.stateVersion = "24.11";
 
-  imports = [ nixvim.homeManagerModules.nixvim ];
+  imports = [nixvim.homeManagerModules.nixvim];
 
   nixGL.packages = nixgl.packages;
   nixGL.defaultWrapper = "mesa";
-  nixGL.installScripts = [ "mesa" ];
+  nixGL.installScripts = ["mesa"];
   nixGL.vulkan.enable = true;
 
   programs.home-manager.enable = true;
@@ -29,7 +28,7 @@
     kdePackages.elisa
     kdePackages.kleopatra
     monero-cli
-    (callPackage ./p2pool.nix { })
+    (callPackage ./p2pool.nix {})
     tree
     prismlauncher
     ungoogled-chromium
