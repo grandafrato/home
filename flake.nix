@@ -17,6 +17,9 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
+    auto-cpufreq.url = "github:AdnanHodzic/auto-cpufreq";
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
   outputs =
@@ -26,8 +29,11 @@
       stylix,
       nixgl,
       nixvim,
+      auto-cpufreq,
+      hyprland,
+      nixos-hardware,
       ...
-    }:
+    } @ inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -47,6 +53,15 @@
           ./home.nix
         ];
       };
-      formatter.${system} = pkgs.nixfmt-rfc-style;
+      nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          auto-cpufreq.nixosModules.default
+          nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+          nixos-hardware.nixosModules.common-gpu-amd
+        ];
+      };
+      formatter.${system} = pkgs.alejandra;
     };
 }
