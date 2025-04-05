@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  nixgl,
   nixvim,
   ...
 }: {
@@ -13,17 +12,16 @@
 
   imports = [nixvim.homeManagerModules.nixvim];
 
-  nixGL.packages = nixgl.packages;
-  nixGL.defaultWrapper = "mesa";
-  nixGL.installScripts = ["mesa"];
-  nixGL.vulkan.enable = true;
-
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    (config.lib.nixGL.wrap blender-hip)
-    (config.lib.nixGL.wrap feather)
-    (config.lib.nixGL.wrap rpcs3)
+    (alpaca.override
+      {
+        ollama = pkgs.ollama-rocm;
+      })
+    blender-hip
+    feather
+    rpcs3
     kdePackages.dolphin
     kdePackages.elisa
     kdePackages.kleopatra

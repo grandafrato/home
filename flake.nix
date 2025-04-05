@@ -9,16 +9,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix.url = "github:danth/stylix";
-    nixgl = {
-      url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    auto-cpufreq.url = "github:AdnanHodzic/auto-cpufreq";
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
@@ -26,7 +25,6 @@
     nixpkgs,
     home-manager,
     stylix,
-    nixgl,
     nixvim,
     auto-cpufreq,
     hyprland,
@@ -43,7 +41,7 @@
       inherit pkgs;
 
       extraSpecialArgs = {
-        inherit nixgl nixvim;
+        inherit nixvim;
       };
       modules = [
         stylix.homeManagerModules.stylix

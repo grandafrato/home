@@ -12,7 +12,7 @@
     ./hardware-configuration.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -77,6 +77,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "render"
     ];
     packages = with pkgs; [];
   };
@@ -92,6 +93,7 @@
       "flakes"
     ];
   };
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -148,6 +150,7 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
+    clinfo
   ];
 
   programs.hyprland = let
@@ -159,6 +162,22 @@
   };
 
   services.displayManager.ly.enable = true;
+
+  systemd.tmpfiles.rules = let
+    rocmEnv = pkgs.symlinkJoin {
+      name = "rocm-combined";
+      paths = with pkgs.rocmPackages; [
+        rocblas
+        hipblas
+        clr
+      ];
+    };
+  in [
+    "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+  ];
+  hardware.graphics.extraPackages = with pkgs; [
+    rocmPackages.clr.icd
+  ];
 
   services.interception-tools = let
     itools = pkgs.interception-tools;
