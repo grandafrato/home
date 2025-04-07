@@ -25,7 +25,11 @@
         };
         glsl_analyzer.enable = true;
         gleam.enable = true;
-        wgsl_analyzer.enable = true;
+        wgsl_analyzer = {
+          enable = true;
+          package = null;
+          cmd = ["wgsl-analyzer"];
+        };
       };
 
       keymaps = {

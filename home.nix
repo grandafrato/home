@@ -109,7 +109,7 @@
     font.size = lib.mkForce 10;
   };
 
-  programs.nixvim = import ./nixvim.nix {inherit pkgs;};
+  programs.nixvim = import ./nixvim.nix;
 
   programs.starship = {
     enable = true;
