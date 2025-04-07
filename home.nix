@@ -43,6 +43,7 @@
       v = "nvim";
       t = "tmux";
       hm = "home-manager";
+      nd = "nix develop";
 
       # Git Aliases
       g = "git";
