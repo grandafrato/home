@@ -23,7 +23,6 @@
     feather
     rpcs3
     kdePackages.dolphin
-    kdePackages.elisa
     kdePackages.kleopatra
     monero-cli
     (callPackage ./p2pool.nix {})
@@ -32,9 +31,42 @@
     ungoogled-chromium
     zoom-us
     slack
+    libreoffice-fresh
+    rhythmbox
+    linux-wifi-hotspot
   ];
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      path = "xvud1yza.default";
+      search.force = true;
+      search.default = "ddg";
+      search.engines = {
+        nix-packages = {
+          name = "Nix Packages";
+          urls = [
+            {
+              template = "https://search.nixos.org/packages";
+              params = [
+                {
+                  name = "type";
+                  value = "packages";
+                }
+                {
+                  name = "query";
+                  value = "{searchTerms}";
+                }
+              ];
+            }
+          ];
+          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          definedAliases = ["@np"];
+        };
+      };
+    };
+  };
+  stylix.targets.firefox.profileNames = ["default"];
 
   programs.zsh = {
     enable = true;

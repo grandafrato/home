@@ -13,6 +13,7 @@
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.extraModprobeConfig = "options amdgpu vis_vramlimit=256"; # Small BAR for AMD eGPU
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -78,6 +79,7 @@
       "networkmanager"
       "wheel"
       "render"
+      "adbusers"
     ];
     packages = with pkgs; [];
   };
@@ -94,6 +96,7 @@
     ];
   };
 
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -147,11 +150,18 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    git
-    clinfo
-  ];
+  environment = {
+    variables = {
+      RADV_PERFTEST = "dmashaders";
+    };
+    systemPackages = with pkgs; [
+      vim
+      git
+      clinfo
+      unzip
+      radeontop
+    ];
+  };
 
   programs.hyprland = let
     hyprpkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
@@ -206,13 +216,9 @@
   # VR stuff
   services.wivrn = {
     enable = true;
-    openFirewall = true;
+    package = pkgs.callPackage ./wivrn/wivrn.nix {};
     defaultRuntime = true;
-    autoStart = true;
-    config = {
-      enable = true;
-      json.encoders.encoder = "vaapi";
-    };
+    openFirewall = true;
   };
   boot.kernelPatches = [
     {
@@ -224,6 +230,8 @@
       };
     }
   ];
+
+  programs.adb.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

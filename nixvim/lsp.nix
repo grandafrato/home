@@ -30,6 +30,7 @@
           package = null;
           cmd = ["wgsl-analyzer"];
         };
+        elmls.enable = true;
       };
 
       keymaps = {
