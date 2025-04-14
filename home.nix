@@ -3,6 +3,7 @@
   pkgs,
   lib,
   nixvim,
+stardustPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -34,6 +35,8 @@
     libreoffice-fresh
     rhythmbox
     linux-wifi-hotspot
+    stardustPkgs.flatscreen
+    stardustPkgs.telescope
   ];
 
   programs.firefox = {

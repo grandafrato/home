@@ -19,6 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    stardust = { url = "github:StardustXR/telescope"; };
   };
 
   outputs = {
@@ -29,6 +30,7 @@
     auto-cpufreq,
     hyprland,
     nixos-hardware,
+    stardust,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -42,6 +44,7 @@
 
       extraSpecialArgs = {
         inherit nixvim;
+        stardustPkgs = stardust.packages.${system};
       };
       modules = [
         stylix.homeManagerModules.stylix
