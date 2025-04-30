@@ -1,4 +1,4 @@
-{
+{pkgs, ...}: {
   enable = true;
   defaultEditor = true;
 
@@ -97,6 +97,17 @@
 
     indent-blankline.enable = true;
   };
+  extraPlugins = let
+    zmplVim = pkgs.vimUtils.buildVimPlugin {
+      name = "zmpl.vim";
+      src = pkgs.fetchFromGitHub {
+        owner = "/jetzig-framework";
+        repo = "zmpl.vim";
+        rev = "2e1e40308c4046ee8de2674ceecb25c1286e1d41";
+        sha256 = "sha256-ORaPYSa8HQjo3ByBo6idmLCTQPLanLG7J/dHpovVYc8=";
+      };
+    };
+  in [zmplVim];
 
   # More advanced plugins:
   imports = [

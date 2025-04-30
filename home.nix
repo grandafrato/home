@@ -3,7 +3,7 @@
   pkgs,
   lib,
   nixvim,
-stardustPkgs,
+  stardustPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -22,7 +22,7 @@ stardustPkgs,
       })
     blender-hip
     feather
-    rpcs3
+    #rpcs3
     kdePackages.dolphin
     kdePackages.kleopatra
     monero-cli
@@ -37,6 +37,12 @@ stardustPkgs,
     linux-wifi-hotspot
     stardustPkgs.flatscreen
     stardustPkgs.telescope
+    wlx-overlay-s
+    qalculate-gtk
+    rnote
+    tor-browser
+    gnome-clocks
+    veusz
   ];
 
   programs.firefox = {
@@ -91,7 +97,7 @@ stardustPkgs,
       # nix-shell use zsh
       nix-shell = "nix-shell --run ${pkgs.zsh}/bin/zsh";
     };
-    initExtra = ''
+    initContent = ''
       # run zsh in nix develop environments
       nix() {
         if [[ $1 == "develop" ]]; then
@@ -145,7 +151,7 @@ stardustPkgs,
     font.size = lib.mkForce 10;
   };
 
-  programs.nixvim = import ./nixvim.nix;
+  programs.nixvim = import ./nixvim.nix {inherit pkgs;};
 
   programs.starship = {
     enable = true;
@@ -179,7 +185,7 @@ stardustPkgs,
     userEmail = "github.defender025@passmail.net";
     userName = "Lachlan Wilger";
     signing = {
-      key = "2EE29D3CE347115D";
+      key = "19827F0EE0558030";
       signByDefault = true;
     };
     ignores = [
@@ -277,4 +283,24 @@ stardustPkgs,
     };
     extraConfig = builtins.readFile ./home/hyprlock/hyprlock.conf;
   };
+
+  xdg.configFile."openvr/openvrpaths.vrpath".text = ''
+    {
+      "config" :
+      [
+        "${config.xdg.dataHome}/Steam/config"
+      ],
+      "external_drivers" : null,
+      "jsonid" : "vrpathreg",
+      "log" :
+      [
+        "${config.xdg.dataHome}/Steam/logs"
+      ],
+      "runtime" :
+      [
+        "${pkgs.opencomposite}/lib/opencomposite"
+      ],
+      "version" : 1
+    }
+  '';
 }

@@ -58,10 +58,19 @@
       charger = {
         governor = "performance";
         turbo = "auto";
+        energy_performance_preference = "performance";
+        energy_perf_bias = "performance";
+        platform_profile = "performance";
       };
       battery = {
         governor = "powersave";
         turbo = "auto";
+        energy_performance_preference = "power";
+        energy_perf_bias = "power";
+        platform_profile = "low-power";
+        enable_thresholds = true;
+        start_threshold = 40;
+        stop_threshold = 85;
       };
     };
   };
@@ -216,20 +225,19 @@
   # VR stuff
   services.wivrn = {
     enable = true;
-    package = pkgs.callPackage ./wivrn/wivrn.nix {};
     defaultRuntime = true;
     openFirewall = true;
   };
-  boot.kernelPatches = [
-    {
-      name = "amdgpu-ignore-ctx-privileges";
-      patch = pkgs.fetchpatch {
-        name = "cap_sys_nice_begone.patch";
-        url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
-        hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
-      };
-    }
-  ];
+  # boot.kernelPatches = [
+  #   {
+  #     name = "amdgpu-ignore-ctx-privileges";
+  #     patch = pkgs.fetchpatch {
+  #       name = "cap_sys_nice_begone.patch";
+  #       url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+  #       hash = "sha256-Y3a0+x2xvHsfLax/uwycdJf3xLxvVfkfDVqjkxNaYEo=";
+  #     };
+  #   }
+  # ];
 
   programs.adb.enable = true;
 

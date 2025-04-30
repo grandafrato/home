@@ -31,6 +31,7 @@
           cmd = ["wgsl-analyzer"];
         };
         elmls.enable = true;
+        pylyzer.enable = true;
       };
 
       keymaps = {

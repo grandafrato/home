@@ -19,7 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    stardust = { url = "github:StardustXR/telescope"; };
+    stardust.url = "github:StardustXR/telescope";
   };
 
   outputs = {
