@@ -43,6 +43,9 @@
     tor-browser
     gnome-clocks
     veusz
+    freecad-wayland
+    openscad-unstable
+    kicad
   ];
 
   programs.firefox = {
