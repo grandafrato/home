@@ -91,6 +91,7 @@
       "adbusers"
     ];
     packages = with pkgs; [];
+    shell = pkgs.nushell;
   };
 
   # Allow unfree packages
@@ -221,6 +222,8 @@
 
   services.i2p.enable = true;
   services.gvfs.enable = true;
+
+  services.fwupd.enable = true;
 
   # VR stuff
   services.wivrn = {

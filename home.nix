@@ -22,7 +22,7 @@
       })
     blender-hip
     feather
-    #rpcs3
+    rpcs3
     kdePackages.dolphin
     kdePackages.kleopatra
     monero-cli
@@ -44,7 +44,7 @@
     gnome-clocks
     veusz
     freecad-wayland
-    openscad-unstable
+    openscad
     kicad
   ];
 
@@ -80,14 +80,13 @@
   };
   stylix.targets.firefox.profileNames = ["default"];
 
-  programs.zsh = {
+  programs.nushell = {
     enable = true;
     shellAliases = {
       z = "zellij";
       v = "nvim";
-      t = "tmux";
       hm = "home-manager";
-      nd = "nix develop";
+      nd = "nix develop -c ${pkgs.nushell}/bin/nu";
 
       # Git Aliases
       g = "git";
@@ -96,27 +95,36 @@
       gc = "git commit";
       gcl = "git clone";
       gp = "git push";
-
-      # nix-shell use zsh
-      nix-shell = "nix-shell --run ${pkgs.zsh}/bin/zsh";
     };
-    initContent = ''
-      # run zsh in nix develop environments
-      nix() {
-        if [[ $1 == "develop" ]]; then
-          shift
-          command nix develop -c ${pkgs.zsh}/bin/zsh "$@"
-        else
-          command nix "$@"
-        fi
+    environmentVariables.EDITOR = "nvim";
+    settings = {
+      show_banner = false;
+      completions = {
+        case_sensitive = false;
+        quick = true;
+        partial = true;
+        algorithm = "fuzzy";
+        external = {
+          enable = true;
+          max_results = 100;
+        };
+      };
+    };
+    extraConfig = ''
+      let carapace_completer = {|spans|
+      carapace $spans.0 nushell ...$spans | from json
       }
-      # Color ls command and derivatives
-      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      $env.config.completions.external.completer = $carapace_completer
+      $env.PATH = ($env.PATH |
+      split row (char esep) |
+      append /usr/bin/env
+      )
     '';
-    sessionVariables = {
-      EDITOR = "nvim";
-      LS_COLORS = builtins.readFile ./dircolors.default;
-    };
+  };
+
+  programs.carapace = {
+    enable = true;
+    enableNushellIntegration = true;
   };
 
   stylix = {
@@ -149,8 +157,6 @@
     enable = true;
     package = config.lib.nixGL.wrap pkgs.kitty;
     shellIntegration.enableBashIntegration = true;
-    shellIntegration.enableZshIntegration = true;
-    settings.shell = "zsh";
     font.size = lib.mkForce 10;
   };
 
@@ -159,7 +165,7 @@
   programs.starship = {
     enable = true;
     enableBashIntegration = true;
-    enableZshIntegration = true;
+    enableNushellIntegration = true;
     settings = {
       package.disabled = true;
       elixir.disabled = true;
@@ -168,12 +174,10 @@
 
   programs.zellij = {
     enable = true;
-    enableBashIntegration = false;
-    enableZshIntegration = false;
     settings = {
       pane_frames = false;
       default_layout = "compact";
-      default_shell = "zsh";
+      default_shell = "nu";
     };
   };
 
