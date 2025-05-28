@@ -25,6 +25,7 @@
     rpcs3
     kdePackages.dolphin
     kdePackages.kleopatra
+    kdePackages.ark
     monero-cli
     (callPackage ./p2pool.nix {})
     tree
@@ -46,6 +47,7 @@
     freecad-wayland
     openscad
     kicad
+    dissent
   ];
 
   programs.firefox = {
@@ -178,6 +180,7 @@
       pane_frames = false;
       default_layout = "compact";
       default_shell = "nu";
+      show_startup_tips = false;
     };
   };
 
