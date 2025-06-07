@@ -89,10 +89,12 @@
       "wheel"
       "render"
       "adbusers"
+      "libvirtd"
     ];
-    packages = with pkgs; [];
+    packages = with pkgs; [podman-tui];
     shell = pkgs.nushell;
   };
+  users.groups.libvirtd.members = ["lachlan"];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -177,6 +179,9 @@
       clinfo
       unzip
       radeontop
+      libreoffice-fresh
+      hunspell
+      hunspellDicts.en_US
     ];
   };
 
@@ -250,6 +255,46 @@
   # ];
 
   programs.adb.enable = true;
+
+  # Enable virtual machines
+  programs.virt-manager.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  virtualisation = {
+    containers.enable = true;
+    podman.enable = true;
+  };
+
+  services.udev.extraRules = let
+    rpi_pico_rules = ''
+      SUBSYSTEM=="usb", \
+          ATTRS{idVendor}=="2e8a", \
+          ATTRS{idProduct}=="0003", \
+          TAG+="uaccess" \
+          MODE="660", \
+          GROUP="plugdev"
+      SUBSYSTEM=="usb", \
+          ATTRS{idVendor}=="2e8a", \
+          ATTRS{idProduct}=="0009", \
+          TAG+="uaccess" \
+          MODE="660", \
+          GROUP="plugdev"
+      SUBSYSTEM=="usb", \
+          ATTRS{idVendor}=="2e8a", \
+          ATTRS{idProduct}=="000a", \
+          TAG+="uaccess" \
+          MODE="660", \
+          GROUP="plugdev"
+      SUBSYSTEM=="usb", \
+          ATTRS{idVendor}=="2e8a", \
+          ATTRS{idProduct}=="000f", \
+          TAG+="uaccess" \
+          MODE="660", \
+          GROUP="plugdev"
+    '';
+  in
+    rpi_pico_rules;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

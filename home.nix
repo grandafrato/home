@@ -33,7 +33,6 @@
     ungoogled-chromium
     zoom-us
     slack
-    libreoffice-fresh
     rhythmbox
     linux-wifi-hotspot
     stardustPkgs.flatscreen
@@ -147,6 +146,11 @@
         package = pkgs.poly;
         name = "Poly";
       };
+    };
+    cursor = {
+      name = "macOS";
+      package = pkgs.apple-cursor;
+      size = 40;
     };
   };
 
@@ -313,4 +317,11 @@
       "version" : 1
     }
   '';
+
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
+  };
 }
