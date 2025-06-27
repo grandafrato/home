@@ -24,7 +24,10 @@
           cmd = ["zls"];
         };
         glsl_analyzer.enable = true;
-        gleam.enable = true;
+        gleam = {
+          enable = true;
+          package = null;
+        };
         wgsl_analyzer = {
           enable = true;
           package = null;

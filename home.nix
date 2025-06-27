@@ -16,15 +16,15 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    (alpaca.override
-      {
-        ollama = pkgs.ollama-rocm;
-      })
+    (alpaca.override {
+      ollama = pkgs.ollama-rocm;
+    })
     blender-hip
     feather
     rpcs3
     kdePackages.dolphin
     kdePackages.kleopatra
+    kdePackages.elisa
     kdePackages.ark
     monero-cli
     (callPackage ./p2pool.nix {})
@@ -33,12 +33,13 @@
     ungoogled-chromium
     zoom-us
     slack
-    rhythmbox
+    # rhythmbox
     linux-wifi-hotspot
     stardustPkgs.flatscreen
     stardustPkgs.telescope
     wlx-overlay-s
     qalculate-gtk
+    raider
     rnote
     tor-browser
     gnome-clocks
@@ -47,6 +48,7 @@
     openscad
     kicad
     dissent
+    pods
   ];
 
   programs.firefox = {

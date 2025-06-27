@@ -13,6 +13,7 @@
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelParams = ["video=HDMI-A-1:1920x1080@60"];
   boot.extraModprobeConfig = "options amdgpu vis_vramlimit=256"; # Small BAR for AMD eGPU
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -51,32 +52,26 @@
     layout = "us";
     variant = "";
   };
-
-  programs.auto-cpufreq = {
+  services.thermald.enable = true;
+  services.tlp = {
     enable = true;
     settings = {
-      charger = {
-        governor = "performance";
-        turbo = "auto";
-        energy_performance_preference = "performance";
-        energy_perf_bias = "performance";
-        platform_profile = "performance";
-      };
-      battery = {
-        governor = "powersave";
-        turbo = "auto";
-        energy_performance_preference = "power";
-        energy_perf_bias = "power";
-        platform_profile = "low-power";
-        enable_thresholds = true;
-        start_threshold = 40;
-        stop_threshold = 85;
-      };
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+
+      #Optional helps save long term battery health
+      START_CHARGE_THRESH_BAT0 = 40; # 40 and below it starts to charge
+      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
     };
   };
-
-  services.thermald.enable = true;
-  services.tlp.enable = false;
 
   services.hardware.bolt.enable = true;
 
@@ -176,12 +171,38 @@
     systemPackages = with pkgs; [
       vim
       git
-      clinfo
       unzip
-      radeontop
       libreoffice-fresh
       hunspell
       hunspellDicts.en_US
+      (writeShellScriptBin "start-gamescope" ''
+        #!/usr/bin/env bash
+        set -xeuo pipefail
+
+        gamescopeArgs=(
+            --mangoapp # performance overlay
+            --rt
+            --steam
+            -O HDMI-A-1
+        )
+        steamArgs=(
+            -pipewire-dmabuf
+            -tenfoot
+        )
+        mangoConfig=(
+            cpu_temp
+            gpu_temp
+            ram
+            vram
+        )
+        mangoVars=(
+            MANGOHUD=1
+            MANGOHUD_CONFIG="$(IFS=,; echo "''${mangoConfig[*]}")"
+        )
+
+        export "''${mangoVars[@]}"
+        exec gamescope "''${gamescopeArgs[@]}" -- steam "''${steamArgs[@]}"
+      '')
     ];
   };
 
@@ -194,22 +215,6 @@
   };
 
   services.displayManager.ly.enable = true;
-
-  systemd.tmpfiles.rules = let
-    rocmEnv = pkgs.symlinkJoin {
-      name = "rocm-combined";
-      paths = with pkgs.rocmPackages; [
-        rocblas
-        hipblas
-        clr
-      ];
-    };
-  in [
-    "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
-  ];
-  hardware.graphics.extraPackages = with pkgs; [
-    rocmPackages.clr.icd
-  ];
 
   services.interception-tools = let
     itools = pkgs.interception-tools;
@@ -230,9 +235,26 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
+    gamescopeSession = {
+      enable = true;
+    };
+  };
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+  programs.gamemode = {
+    enable = true;
+    settings = {
+      general.renice = 10;
+      gpu = {
+        apply_gpu_optimisations = "accept-responsibility";
+        gpu_device = 1;
+        amd_performance_level = "high";
+      };
+    };
   };
 
-  services.i2p.enable = true;
   services.gvfs.enable = true;
 
   services.fwupd.enable = true;
@@ -266,35 +288,24 @@
     podman.enable = true;
   };
 
-  services.udev.extraRules = let
-    rpi_pico_rules = ''
-      SUBSYSTEM=="usb", \
-          ATTRS{idVendor}=="2e8a", \
-          ATTRS{idProduct}=="0003", \
-          TAG+="uaccess" \
-          MODE="660", \
-          GROUP="plugdev"
-      SUBSYSTEM=="usb", \
-          ATTRS{idVendor}=="2e8a", \
-          ATTRS{idProduct}=="0009", \
-          TAG+="uaccess" \
-          MODE="660", \
-          GROUP="plugdev"
-      SUBSYSTEM=="usb", \
-          ATTRS{idVendor}=="2e8a", \
-          ATTRS{idProduct}=="000a", \
-          TAG+="uaccess" \
-          MODE="660", \
-          GROUP="plugdev"
-      SUBSYSTEM=="usb", \
-          ATTRS{idVendor}=="2e8a", \
-          ATTRS{idProduct}=="000f", \
-          TAG+="uaccess" \
-          MODE="660", \
-          GROUP="plugdev"
-    '';
-  in
-    rpi_pico_rules;
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-rocm;
+    environmentVariables = {
+      HCC_AMDGPU_TARGET = "gfx1031"; # used to be necessary, but doesn't seem to anymore
+    };
+    rocmOverrideGfx = "10.3.0";
+  };
+
+  services.beesd.filesystems.root = {
+    spec = "UUID=\"bd1f5019-9457-4b95-b8b1-571fcc411d58\"";
+    hashTableSizeMB = 2048;
+    verbosity = "crit";
+    extraOptions = [
+      "--loadavg-target"
+      "5.0"
+    ];
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
