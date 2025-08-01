@@ -15,7 +15,6 @@
     };
     hyprland.url = "github:hyprwm/Hyprland";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    stardust.url = "github:StardustXR/telescope";
   };
 
   outputs = {
@@ -25,7 +24,6 @@
     nixvim,
     hyprland,
     nixos-hardware,
-    stardust,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -37,21 +35,22 @@
     homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
-      extraSpecialArgs = {
-        inherit nixvim;
-        stardustPkgs = stardust.packages.${system};
-      };
+      extraSpecialArgs = {inherit nixvim;};
       modules = [
         stylix.homeModules.stylix
         ./home.nix
       ];
     };
     nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+        hyprlandPkgs = hyprland.packages.${system};
+        hyprlandNixpkgs = hyprland.inputs.nixpkgs.legacyPackages.${system};
+      };
       modules = [
         ./configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
-        nixos-hardware.nixosModules.common-gpu-amd
+        # nixos-hardware.nixosModules.common-gpu-amd
       ];
     };
     formatter.${system} = pkgs.alejandra;

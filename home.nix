@@ -3,7 +3,6 @@
   pkgs,
   lib,
   nixvim,
-  stardustPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -24,8 +23,9 @@
     rpcs3
     kdePackages.dolphin
     kdePackages.kleopatra
-    kdePackages.elisa
     kdePackages.ark
+    kdePackages.tokodon
+    #kdePackages.elisa
     monero-cli
     (callPackage ./p2pool.nix {})
     tree
@@ -33,10 +33,8 @@
     ungoogled-chromium
     zoom-us
     slack
-    # rhythmbox
+    rhythmbox
     linux-wifi-hotspot
-    stardustPkgs.flatscreen
-    stardustPkgs.telescope
     wlx-overlay-s
     qalculate-gtk
     raider
@@ -49,6 +47,7 @@
     kicad
     dissent
     pods
+    vlc
   ];
 
   programs.firefox = {
@@ -71,6 +70,10 @@
                 {
                   name = "query";
                   value = "{searchTerms}";
+                }
+                {
+                  name = "channel";
+                  value = "unstable";
                 }
               ];
             }
@@ -114,10 +117,9 @@
       };
     };
     extraConfig = ''
-      let carapace_completer = {|spans|
-      carapace $spans.0 nushell ...$spans | from json
+      $env.config.completions.external.completer = {|spans|
+        carapace $spans.0 nushell ...$spans | from json
       }
-      $env.config.completions.external.completer = $carapace_completer
       $env.PATH = ($env.PATH |
       split row (char esep) |
       append /usr/bin/env
@@ -281,9 +283,9 @@
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
-        # Suspend computer after 30 minutes.
+        # Suspend computer after 15 minutes.
         {
-          timeout = 1800;
+          timeout = 900;
           on-timeout = "systemctl suspend";
         }
       ];
@@ -299,6 +301,12 @@
     };
     extraConfig = builtins.readFile ./home/hyprlock/hyprlock.conf;
   };
+
+  xdg.configFile."libvirt/qemu.conf".text = ''
+    # Adapted from /var/lib/libvirt/qemu.conf
+    # Note that AAVMF and OVMF are for Aarch64 and x86 respectively
+    nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
+  '';
 
   xdg.configFile."openvr/openvrpaths.vrpath".text = ''
     {

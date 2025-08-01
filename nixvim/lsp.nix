@@ -17,7 +17,13 @@
           installCargo = false;
         };
         elixirls.enable = true;
-        nil_ls.enable = true;
+        nil_ls = {
+          enable = true;
+          settings.formatting.command = [
+            "nix"
+            "fmt"
+          ];
+        };
         zls = {
           enable = true;
           package = null;
@@ -32,6 +38,7 @@
           enable = true;
           package = null;
           cmd = ["wgsl-analyzer"];
+          filetypes = [".wgsl"];
         };
         elmls.enable = true;
         nushell.enable = true;

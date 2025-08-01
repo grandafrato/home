@@ -30,6 +30,7 @@
       "subvol=@"
       "compress=zstd:4"
       "noatime"
+      "ssd"
     ];
   };
 

@@ -5,6 +5,9 @@
   inputs,
   config,
   pkgs,
+  lib,
+  hyprlandPkgs,
+  hyprlandNixpkgs,
   ...
 }: {
   imports = [
@@ -13,21 +16,17 @@
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.kernelParams = ["video=HDMI-A-1:1920x1080@60"];
+  boot.kernelParams = ["thunderbolt.host_reset=0"];
   boot.extraModprobeConfig = "options amdgpu vis_vramlimit=256"; # Small BAR for AMD eGPU
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "chargeman-ken"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "chargeman-ken";
+    networkmanager.enable = true;
+    interfaces.wlp0s20f3.useDHCP = true;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -63,7 +62,7 @@
       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
       CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MAX_PERF_ON_AC = 95;
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 20;
 
@@ -75,6 +74,8 @@
 
   services.hardware.bolt.enable = true;
 
+  services.logind.lidSwitchExternalPower = "ignore";
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lachlan = {
     isNormalUser = true;
@@ -85,6 +86,7 @@
       "render"
       "adbusers"
       "libvirtd"
+      "video"
     ];
     packages = with pkgs; [podman-tui];
     shell = pkgs.nushell;
@@ -175,43 +177,14 @@
       libreoffice-fresh
       hunspell
       hunspellDicts.en_US
-      (writeShellScriptBin "start-gamescope" ''
-        #!/usr/bin/env bash
-        set -xeuo pipefail
-
-        gamescopeArgs=(
-            --mangoapp # performance overlay
-            --rt
-            --steam
-            -O HDMI-A-1
-        )
-        steamArgs=(
-            -pipewire-dmabuf
-            -tenfoot
-        )
-        mangoConfig=(
-            cpu_temp
-            gpu_temp
-            ram
-            vram
-        )
-        mangoVars=(
-            MANGOHUD=1
-            MANGOHUD_CONFIG="$(IFS=,; echo "''${mangoConfig[*]}")"
-        )
-
-        export "''${mangoVars[@]}"
-        exec gamescope "''${gamescopeArgs[@]}" -- steam "''${steamArgs[@]}"
-      '')
+      protonup-qt
     ];
   };
 
-  programs.hyprland = let
-    hyprpkgs = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system};
-  in {
+  programs.hyprland = {
     enable = true;
-    package = hyprpkgs.hyprland;
-    portalPackage = hyprpkgs.xdg-desktop-portal-hyprland;
+    package = hyprlandPkgs.hyprland;
+    portalPackage = hyprlandPkgs.xdg-desktop-portal-hyprland;
   };
 
   services.displayManager.ly.enable = true;
@@ -235,25 +208,8 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
-    gamescopeSession = {
-      enable = true;
-    };
   };
-  programs.gamescope = {
-    enable = true;
-    capSysNice = true;
-  };
-  programs.gamemode = {
-    enable = true;
-    settings = {
-      general.renice = 10;
-      gpu = {
-        apply_gpu_optimisations = "accept-responsibility";
-        gpu_device = 1;
-        amd_performance_level = "high";
-      };
-    };
-  };
+  programs.gamescope.enable = true;
 
   services.gvfs.enable = true;
 
@@ -276,11 +232,33 @@
   #   }
   # ];
 
+  services.transmission = {
+    enable = true;
+    package = pkgs.transmission_4-qt;
+    openPeerPorts = true;
+  };
+
   programs.adb.enable = true;
 
   # Enable virtual machines
   programs.virt-manager.enable = true;
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
+    };
+  };
   virtualisation.spiceUSBRedirection.enable = true;
 
   virtualisation = {
@@ -305,6 +283,37 @@
       "--loadavg-target"
       "5.0"
     ];
+  };
+
+  specialisation.vm-passthrough.configuration = {
+    boot.initrd.kernelModules = [
+      "vfio_pci"
+      "vfio"
+      "vfio_iommu_type1"
+    ];
+    boot.kernelParams = let
+      gpu_thing_ids = [
+        "8086:462f"
+        "1002:73df"
+        "1002:ab28"
+      ];
+    in [
+      "intel_iommu=on"
+      "iommu=pt"
+      ("vifio-pci.ids=" + lib.concatStringsSep "," gpu_thing_ids)
+    ];
+
+    boot.blacklistedKernelModules = ["amdgpu"];
+
+    services.dnsmasq.enable = true;
+  };
+
+  # Graphics
+  hardware.graphics = {
+    package = hyprlandNixpkgs.mesa;
+
+    enable32Bit = true;
+    package32 = hyprlandNixpkgs.pkgsi686Linux.mesa;
   };
 
   # Some programs need SUID wrappers, can be configured further or are

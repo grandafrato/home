@@ -21,7 +21,7 @@
     border_size = 2;
     resize_on_border = false;
 
-    allow_tearing = false;
+    allow_tearing = true;
 
     layout = "dwindle";
   };
@@ -30,7 +30,7 @@
     rounding = 10;
 
     active_opacity = 1.0;
-    inactive_opacity = 1.0;
+    inactive_opacity = 0.9;
 
     blur.enabled = false;
   };
@@ -73,7 +73,6 @@
       "$mod, F, exec, $browser"
       "$mod, T, exec, $terminal"
       "$mod, E, exec, $fileManager"
-      "$mod, S, exec, gnome-software"
       "$mod, A, exec, ${pkgs.fuzzel}/bin/fuzzel"
 
       # Manage Applications
@@ -141,4 +140,6 @@
 
   # Prevent Maximize Event
   windowrulev2 = ["suppressevent maximize, class:.*"];
+
+  debug.full_cm_proto = "true";
 }
