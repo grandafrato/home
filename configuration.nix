@@ -187,7 +187,15 @@
     portalPackage = hyprlandPkgs.xdg-desktop-portal-hyprland;
   };
 
-  services.displayManager.ly.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      animation = "colormix";
+      bigclock = "en";
+      brightness_down_cmd = "${pkgs.brillo}/bin/brillo -q -U 5";
+      brightness_up_cmd = "${pkgs.brillo}/bin/brillo -q -A 5";
+    };
+  };
 
   services.interception-tools = let
     itools = pkgs.interception-tools;
