@@ -50,7 +50,6 @@
       modules = [
         ./configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
-        # nixos-hardware.nixosModules.common-gpu-amd
       ];
     };
     formatter.${system} = pkgs.alejandra;

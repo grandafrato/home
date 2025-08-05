@@ -10,7 +10,7 @@
 
   home.stateVersion = "24.11";
 
-  imports = [nixvim.homeManagerModules.nixvim];
+  imports = [nixvim.homeModules.nixvim];
 
   programs.home-manager.enable = true;
 

@@ -311,6 +311,7 @@
       ("vifio-pci.ids=" + lib.concatStringsSep "," gpu_thing_ids)
     ];
 
+    hardware.amdgpu.initrd.enable = false;
     boot.blacklistedKernelModules = ["amdgpu"];
 
     services.dnsmasq.enable = true;
@@ -319,10 +320,12 @@
   # Graphics
   hardware.graphics = {
     package = hyprlandNixpkgs.mesa;
+    enable = true;
 
     enable32Bit = true;
     package32 = hyprlandNixpkgs.pkgsi686Linux.mesa;
   };
+  hardware.amdgpu.initrd.enable = lib.mkDefault true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
