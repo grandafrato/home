@@ -87,6 +87,7 @@
       "adbusers"
       "libvirtd"
       "video"
+      "gamemode"
     ];
     packages = with pkgs; [podman-tui];
     shell = pkgs.nushell;
@@ -218,6 +219,23 @@
     localNetworkGameTransfers.openFirewall = true;
   };
   programs.gamescope.enable = true;
+
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+    settings = {
+      general.renice = 10;
+      gpu = {
+        apply_gpu_optimisations = "accept-responsibility";
+        gpu_device = 1;
+        amd_performance_level = "auto";
+      };
+      custom = {
+        start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
+        end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
+      };
+    };
+  };
 
   services.gvfs.enable = true;
 
