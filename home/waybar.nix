@@ -1,6 +1,4 @@
-let
-  betterTransition = "all 0.3s cubic-bezier(.55,-0.68,.48,1.682)";
-in {
+{
   enable = true;
   settings.minibar = {
     layer = "top";
@@ -21,14 +19,17 @@ in {
     ];
 
     "hyprland/workspaces" = {
-      format = "{name}";
+      format = "{icon}";
       format-icons = {
-        default = " ";
-        active = " ";
-        urgent = " ";
+        urgent = "";
+        active = ""; # focused workspace on current monitor
+        visible = ""; # focused workspace on other monitors
+        default = "";
+        empty = ""; # persistent (created by this plugin)
       };
-      on-scroll-up = "hyprctl dispatch workspace e+1";
-      on-scroll-down = "hyprctl dispatch workspace e-1";
+      all-outputs = false;
+      on-scroll-up = "hyprctl dispatch split-workspace e+1";
+      on-scroll-down = "hyprctl dispatch split-workspace e-1";
     };
 
     clock = {
@@ -134,7 +135,6 @@ in {
       color: #282936;
       background: linear-gradient(45deg, #ea51b2, #62d6e8);
       opacity: 0.5;
-      transition: ${betterTransition};
     }
     #workspaces button.active {
       font-weight: bold;
@@ -143,9 +143,8 @@ in {
       border-radius: 16px;
       color: #282936;
       background: linear-gradient(45deg, #ea51b2, #62d6e8);
-      transition: ${betterTransition};
       opacity: 1.0;
-      min-width: 40px;
+      min-width: 25px;
     }
     #workspaces button:hover {
       font-weight: bold;
@@ -153,7 +152,6 @@ in {
       color: #282936;
       background: linear-gradient(45deg, #ea51b2, #62d6e8);
       opacity: 0.8;
-      transition: ${betterTransition};
     }
     tooltip {
       background: #282936;

@@ -14,6 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
@@ -24,6 +28,7 @@
     nixvim,
     hyprland,
     nixos-hardware,
+    split-monitor-workspaces,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -35,7 +40,10 @@
     homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
-      extraSpecialArgs = {inherit nixvim;};
+      extraSpecialArgs = {
+        inherit nixvim;
+        split-monitor-workspacesPkgs = split-monitor-workspaces.packages.${system};
+      };
       modules = [
         stylix.homeModules.stylix
         ./home.nix

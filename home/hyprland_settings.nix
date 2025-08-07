@@ -1,8 +1,9 @@
 {pkgs, ...}: {
   # Monitor Settings
   monitor = [
-    "eDP-1,preferred,auto,1"
-    ",preferred,auto-left,1"
+    "eDP-1, preferred, auto, 1"
+    "DP-1, 1920x1080@60, auto-up, 1"
+    ",preferred, auto, 1, mirror, eDP-1"
   ];
   xwayland.force_zero_scaling = true;
 
@@ -11,7 +12,7 @@
     "waybar"
     "systemctl --user enable --now hyprpaper.service"
     "systemctl --user enable --now hypridle.service"
-    "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"
+    "systemctl --user enable --now hyprpolkitagent.service"
   ];
 
   general = {
@@ -94,12 +95,12 @@
       "$mod_shift, J, swapwindow, d"
 
       # Move Window to Next or Previous Workspace
-      "$mod_shift, O, movetoworkspace, +1"
-      "$mod_shift, I, movetoworkspace, -1"
+      "$mod_shift, O, split-movetoworkspace, +1"
+      "$mod_shift, I, split-movetoworkspace, -1"
 
       # Change Focus to Next or Previous Workspace
-      "$mod, O, workspace, +1"
-      "$mod, I, workspace, -1"
+      "$mod, O, split-workspace, +1"
+      "$mod, I, split-workspace, -1"
 
       # Brightness Control
       ", XF86MonBrightnessUp, exec, ${pkgs.brillo}/bin/brillo -q -A 5"
@@ -116,8 +117,8 @@
           in
             builtins.toString (x + 1 - (c * 10));
         in [
-          "$mod, ${ws}, workspace, ${toString (x + 1)}"
-          "$mod_shift, ${ws}, movetoworkspace, ${toString (x + 1)}"
+          "$mod, ${ws}, split-workspace, ${toString (x + 1)}"
+          "$mod_shift, ${ws}, split-movetoworkspace, ${toString (x + 1)}"
         ]
       )
       10

@@ -3,6 +3,7 @@
   pkgs,
   lib,
   nixvim,
+  split-monitor-workspacesPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -231,6 +232,7 @@
     portalPackage = null;
     systemd.enable = true;
     settings = import ./home/hyprland_settings.nix pkgs;
+    plugins = [split-monitor-workspacesPkgs.split-monitor-workspaces];
   };
   stylix.targets.hyprland.enable = false;
 
@@ -243,6 +245,8 @@
     enable = true;
     settings.global.corner_radius = 8;
   };
+
+  services.hyprpolkitagent.enable = true;
 
   services.hyprpaper = {
     enable = true;
