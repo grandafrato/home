@@ -16,8 +16,9 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    (alpaca.override {
-      ollama = pkgs.ollama-rocm;
+    (llama-cpp.override {
+      rocmSupport = true;
+      rocmPackages = pkgs.rocmPackages;
     })
     blender-hip
     feather
@@ -106,6 +107,7 @@
     environmentVariables.EDITOR = "nvim";
     settings = {
       show_banner = false;
+      edit_mode = "vi";
       completions = {
         case_sensitive = false;
         quick = true;
@@ -155,7 +157,7 @@
     cursor = {
       name = "macOS";
       package = pkgs.apple-cursor;
-      size = 40;
+      size = 32;
     };
   };
 
@@ -178,6 +180,7 @@
     enableBashIntegration = true;
     enableNushellIntegration = true;
     settings = {
+      character.disabled = true;
       package.disabled = true;
       elixir.disabled = true;
     };

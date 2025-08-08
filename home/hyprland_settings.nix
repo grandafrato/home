@@ -22,7 +22,7 @@
     border_size = 2;
     resize_on_border = false;
 
-    allow_tearing = true;
+    allow_tearing = false;
 
     layout = "dwindle";
   };

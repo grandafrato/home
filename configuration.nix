@@ -292,15 +292,6 @@
     podman.enable = true;
   };
 
-  services.ollama = {
-    enable = true;
-    package = pkgs.ollama-rocm;
-    environmentVariables = {
-      HCC_AMDGPU_TARGET = "gfx1031"; # used to be necessary, but doesn't seem to anymore
-    };
-    rocmOverrideGfx = "10.3.0";
-  };
-
   services.beesd.filesystems.root = {
     spec = "UUID=\"bd1f5019-9457-4b95-b8b1-571fcc411d58\"";
     hashTableSizeMB = 2048;
