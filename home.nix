@@ -4,6 +4,7 @@
   lib,
   nixvim,
   split-monitor-workspacesPkgs,
+  llamaCppPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -16,10 +17,7 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    (llama-cpp.override {
-      rocmSupport = true;
-      rocmPackages = pkgs.rocmPackages;
-    })
+    llamaCppPkgs.vulkan
     blender-hip
     feather
     rpcs3
@@ -50,6 +48,7 @@
     dissent
     pods
     vlc
+    inkscape
   ];
 
   programs.firefox = {
@@ -87,6 +86,8 @@
     };
   };
   stylix.targets.firefox.profileNames = ["default"];
+
+  programs.helix.enable = true;
 
   programs.nushell = {
     enable = true;
@@ -191,6 +192,7 @@
     settings = {
       pane_frames = false;
       default_layout = "compact";
+      "compact-bar location=\"zellij:compact-bar\"".tooltip = "F1";
       default_shell = "nu";
       show_startup_tips = false;
     };

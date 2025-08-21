@@ -19,6 +19,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    llama-cpp.url = "github:ggml-org/llama.cpp";
   };
 
   outputs = {
@@ -29,6 +30,7 @@
     hyprland,
     nixos-hardware,
     split-monitor-workspaces,
+    llama-cpp,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -43,6 +45,7 @@
       extraSpecialArgs = {
         inherit nixvim;
         split-monitor-workspacesPkgs = split-monitor-workspaces.packages.${system};
+        llamaCppPkgs = llama-cpp.packages.${system};
       };
       modules = [
         stylix.homeModules.stylix
