@@ -74,7 +74,7 @@
 
   services.hardware.bolt.enable = true;
 
-  services.logind.lidSwitchExternalPower = "ignore";
+  services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lachlan = {

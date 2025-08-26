@@ -44,7 +44,7 @@
     veusz
     freecad-wayland
     openscad
-    kicad
+    #kicad
     dissent
     pods
     vlc
@@ -109,6 +109,7 @@
     settings = {
       show_banner = false;
       edit_mode = "vi";
+      use_kitty_protocol = true;
       completions = {
         case_sensitive = false;
         quick = true;
