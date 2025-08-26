@@ -216,7 +216,10 @@
       "*~"
       "*.swp"
     ];
-    extraConfig.init.defaultBranch = "main";
+    extraConfig = {
+      init.defaultBranch = "main";
+      push.autoSetupRemote = true;
+    };
   };
 
   services.mpris-proxy.enable = true;

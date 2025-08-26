@@ -19,7 +19,10 @@
       inputs.hyprland.follows = "hyprland";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    llama-cpp.url = "github:ggml-org/llama.cpp";
+    llama-cpp = {
+      url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
