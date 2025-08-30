@@ -82,10 +82,35 @@
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
           definedAliases = ["@np"];
         };
+        github = {
+          name = "GitHub";
+          urls = [
+            {
+              template = "https://github.com/search";
+              params = [
+                {
+                  name = "q";
+                  type = "{searchTerms}";
+                }
+                {
+                  name = "type";
+                  type = "repositories";
+                }
+              ];
+            }
+          ];
+          icon = ./home/icons/github.png;
+          definedAliases = ["@gh"];
+        };
       };
     };
   };
   stylix.targets.firefox.profileNames = ["default"];
+
+  programs.thunderbird = {
+    enable = true;
+    profiles.default.isDefault = true;
+  };
 
   programs.helix.enable = true;
 
