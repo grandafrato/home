@@ -27,28 +27,25 @@
     kdePackages.tokodon
     #kdePackages.elisa
     monero-cli
-    (callPackage ./p2pool.nix {})
+    p2pool
     tree
     prismlauncher
     ungoogled-chromium
     zoom-us
     slack
     rhythmbox
-    linux-wifi-hotspot
     wlx-overlay-s
-    qalculate-gtk
     raider
     rnote
     tor-browser
-    gnome-clocks
-    veusz
     freecad-wayland
     openscad
-    #kicad
+    kicad
     dissent
     pods
     vlc
     inkscape
+    wl-clipboard
   ];
 
   programs.firefox = {
