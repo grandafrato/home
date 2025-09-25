@@ -17,8 +17,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
@@ -31,7 +31,7 @@
     nixvim,
     hyprland,
     nixos-hardware,
-    split-monitor-workspaces,
+    hyprsplit,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -45,7 +45,7 @@
 
       extraSpecialArgs = {
         inherit nixvim;
-        split-monitor-workspacesPkgs = split-monitor-workspaces.packages.${system};
+        hyprsplitPkgs = hyprsplit.packages.${system};
       };
       modules = [
         stylix.homeModules.stylix

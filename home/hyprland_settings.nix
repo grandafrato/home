@@ -64,6 +64,8 @@
 
   cursor.hide_on_key_press = true;
 
+  plugin.hyprsplit.persistent_workspaces = true;
+
   # Key Binds
   # Format is bind[flags]
   "$mod" = "SUPER";
@@ -95,12 +97,12 @@
       "$mod_shift, J, swapwindow, d"
 
       # Move Window to Next or Previous Workspace
-      "$mod_shift, O, split-movetoworkspace, +1"
-      "$mod_shift, I, split-movetoworkspace, -1"
+      "$mod_shift, O, split:movetoworkspace, +1"
+      "$mod_shift, I, split:movetoworkspace, -1"
 
       # Change Focus to Next or Previous Workspace
-      "$mod, O, split-workspace, +1"
-      "$mod, I, split-workspace, -1"
+      "$mod, O, split:workspace, +1"
+      "$mod, I, split:workspace, -1"
 
       # Brightness Control
       ", XF86MonBrightnessUp, exec, ${pkgs.brillo}/bin/brillo -q -A 5"
@@ -117,8 +119,8 @@
           in
             builtins.toString (x + 1 - (c * 10));
         in [
-          "$mod, ${ws}, split-workspace, ${toString (x + 1)}"
-          "$mod_shift, ${ws}, split-movetoworkspace, ${toString (x + 1)}"
+          "$mod, ${ws}, split:workspace, ${toString (x + 1)}"
+          "$mod_shift, ${ws}, split:movetoworkspace, ${toString (x + 1)}"
         ]
       )
       10
