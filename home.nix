@@ -4,7 +4,6 @@
   lib,
   nixvim,
   split-monitor-workspacesPkgs,
-  llamaCppPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -17,7 +16,6 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    llamaCppPkgs.vulkan
     blender-hip
     feather
     rpcs3
