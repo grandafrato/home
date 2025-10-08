@@ -27,8 +27,8 @@
     monero-cli
     p2pool
     tree
+    lmstudio
     prismlauncher
-    ungoogled-chromium
     zoom-us
     slack
     rhythmbox
