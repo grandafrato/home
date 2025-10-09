@@ -312,6 +312,7 @@
     enable = true;
     xwayland.enable = true;
   };
+  environment.cosmic.excludePackages = with pkgs; [cosmic-player cosmic-edit cosmic-term];
 
   # Graphics
   hardware.graphics = {
