@@ -1,4 +1,4 @@
-Some(([], [
+Some((["com.system76.CosmicAppletTime"], [
     "com.system76.CosmicAppletA11y",
     "com.system76.CosmicAppletStatusArea",
     "com.system76.CosmicAppletTiling",
