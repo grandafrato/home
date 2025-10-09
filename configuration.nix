@@ -2,8 +2,6 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  inputs,
-  config,
   pkgs,
   lib,
   hyprlandPkgs,
@@ -204,7 +202,9 @@
 
   services.interception-tools = let
     itools = pkgs.interception-tools;
-    itools-caps = pkgs.interception-tools-plugins.caps2esc;
+    itools-caps = pkgs.interception-tools-plugins.caps2esc.overrideAttrs (_: {
+      cmakeFlags = ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"];
+    });
   in {
     enable = true;
     plugins = [itools-caps];
