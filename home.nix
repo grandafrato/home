@@ -22,7 +22,6 @@
     kdePackages.dolphin
     kdePackages.kleopatra
     kdePackages.ark
-    kdePackages.tokodon
     #kdePackages.elisa
     monero-cli
     p2pool
