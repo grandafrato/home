@@ -40,18 +40,6 @@
       config.allowUnfree = true;
     };
   in {
-    homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-
-      extraSpecialArgs = {
-        inherit nixvim;
-        hyprsplitPkgs = hyprsplit.packages.${system};
-      };
-      modules = [
-        stylix.homeModules.stylix
-        ./home.nix
-      ];
-    };
     nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
@@ -61,6 +49,18 @@
       modules = [
         ./configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useUserPackages = true;
+            users."lachlan" = ./home.nix;
+            sharedModules = [stylix.homeModules.stylix];
+            extraSpecialArgs = {
+              inherit nixvim;
+              hyprsplitPkgs = hyprsplit.packages.${system};
+            };
+          };
+        }
       ];
     };
     formatter.${system} = pkgs.alejandra;

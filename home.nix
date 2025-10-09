@@ -11,6 +11,8 @@
 
   home.stateVersion = "24.11";
 
+  nixpkgs.config.allowUnfree = true;
+
   imports = [nixvim.homeModules.nixvim];
 
   programs.home-manager.enable = true;
@@ -113,7 +115,6 @@
     shellAliases = {
       z = "zellij";
       v = "nvim";
-      hm = "home-manager";
       nd = "nix develop -c ${pkgs.nushell}/bin/nu";
 
       # Git Aliases
