@@ -190,6 +190,7 @@
     package = config.lib.nixGL.wrap pkgs.kitty;
     shellIntegration.enableBashIntegration = true;
     font.size = lib.mkForce 10;
+    settings.hide_window_decorations = "yes";
   };
 
   programs.nixvim = import ./nixvim.nix {inherit pkgs;};

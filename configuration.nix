@@ -157,7 +157,6 @@
     powerOnBoot = true;
     settings.General.Enable = "Source,Sink,Media,Socket";
   };
-  services.blueman.enable = true;
 
   hardware.brillo.enable = true;
 
