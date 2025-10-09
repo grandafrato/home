@@ -16,11 +16,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprsplit = {
-      url = "github:shezdy/hyprsplit";
-      inputs.hyprland.follows = "hyprland";
-    };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
   };
 
@@ -29,9 +24,7 @@
     home-manager,
     stylix,
     nixvim,
-    hyprland,
     nixos-hardware,
-    hyprsplit,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -43,21 +36,14 @@
     homeConfigurations."lachlan" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
-      extraSpecialArgs = {
-        inherit nixvim;
-        hyprsplitPkgs = hyprsplit.packages.${system};
-      };
+      extraSpecialArgs = {inherit nixvim;};
       modules = [
         stylix.homeModules.stylix
         ./home.nix
       ];
     };
     nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-        hyprlandPkgs = hyprland.packages.${system};
-        hyprlandNixpkgs = hyprland.inputs.nixpkgs.legacyPackages.${system};
-      };
+      specialArgs = {inherit inputs;};
       modules = [
         ./configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen

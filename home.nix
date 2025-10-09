@@ -3,7 +3,6 @@
   pkgs,
   lib,
   nixvim,
-  hyprsplitPkgs,
   ...
 }: {
   home.username = "lachlan";
@@ -19,7 +18,6 @@
     blender-hip
     feather
     rpcs3
-    kdePackages.dolphin
     kdePackages.kleopatra
     kdePackages.ark
     #kdePackages.elisa
@@ -243,96 +241,6 @@
   };
 
   services.mpris-proxy.enable = true;
-
-  programs.fuzzel = {
-    enable = true;
-    settings.main = {
-      layer = "overlay";
-      terminal = "${pkgs.kitty}/bin/kitty";
-      font = lib.mkForce "JetBrainsMono NF SemiBold:size=12";
-      width = 40;
-    };
-  };
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    package = null;
-    portalPackage = null;
-    systemd.enable = true;
-    settings = import ./home/hyprland_settings.nix pkgs;
-    plugins = [hyprsplitPkgs.hyprsplit];
-  };
-  stylix.targets.hyprland.enable = false;
-
-  programs.waybar = import ./home/waybar.nix;
-  stylix.targets.waybar.enable = false;
-
-  programs.wlogout.enable = true;
-
-  services.dunst = {
-    enable = true;
-    settings.global.corner_radius = 8;
-  };
-
-  services.hyprpolkitagent.enable = true;
-
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      ipc = "on";
-      splash = false;
-      preload = "${./backgrounds/Mountains.png}";
-      wallpaper = ",${./backgrounds/Mountains.png}";
-    };
-  };
-  stylix.targets.hyprpaper.enable = false;
-
-  services.hypridle = {
-    enable = true;
-    settings = {
-      general = {
-        lock_cmd = "pidof hyprlock || hyprlock";
-        before_sleep_cmd = "loginctl lock-session";
-        after_sleep_cmd = "hyprctl dispatch dpms on";
-      };
-      listener = [
-        # After 2.5 minutes, set monitor to minimum brightness, and return to
-        # to previous brightness on awake.
-        {
-          timeout = 150;
-          on-timeout = "brillo -O && brillo -S 0.01";
-          on-resume = "brillo -I";
-        }
-        # After 5 minutes, lock the screen.
-        {
-          timeout = 300;
-          on-timeout = "loginctl lock-session";
-        }
-        # After 5 and 1/2 minutes, turn the screen off, but turn it bacl on if
-        # activity is detected after timeout has been fired.
-        {
-          timeout = 330;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-        # Suspend computer after 15 minutes.
-        {
-          timeout = 900;
-          on-timeout = "systemctl suspend";
-        }
-      ];
-    };
-  };
-
-  programs.hyprlock = {
-    enable = true;
-    settings = {
-      source = "${./home/hyprlock/mocha.conf}";
-      "$bg_path" = "${./backgrounds/Clearnight.jpg}";
-      "$face_path" = "${./home/hyprlock/face.png}";
-    };
-    extraConfig = builtins.readFile ./home/hyprlock/hyprlock.conf;
-  };
 
   xdg.configFile."libvirt/qemu.conf".text = ''
     # Adapted from /var/lib/libvirt/qemu.conf

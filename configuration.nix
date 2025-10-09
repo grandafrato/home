@@ -4,8 +4,6 @@
 {
   pkgs,
   lib,
-  hyprlandPkgs,
-  hyprlandNixpkgs,
   ...
 }: {
   imports = [
@@ -49,6 +47,8 @@
     layout = "us";
     variant = "";
   };
+
+  services.power-profiles-daemon.enable = false;
   services.thermald.enable = true;
   services.tlp = {
     enable = true;
@@ -103,12 +103,6 @@
 
   nix.settings = {
     auto-optimise-store = true;
-    substituters = [
-      "https://hyprland.cachix.org"
-    ];
-    trusted-public-keys = [
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-    ];
     experimental-features = [
       "nix-command"
       "flakes"
@@ -182,12 +176,6 @@
       hunspellDicts.en_US
       protonup-qt
     ];
-  };
-
-  programs.hyprland = {
-    enable = true;
-    package = hyprlandPkgs.hyprland;
-    portalPackage = hyprlandPkgs.xdg-desktop-portal-hyprland;
   };
 
   services.displayManager.ly = {
@@ -321,13 +309,15 @@
     services.dnsmasq.enable = true;
   };
 
+  services.desktopManager.cosmic = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
   # Graphics
   hardware.graphics = {
-    package = hyprlandNixpkgs.mesa;
     enable = true;
-
     enable32Bit = true;
-    package32 = hyprlandNixpkgs.pkgsi686Linux.mesa;
   };
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
 
