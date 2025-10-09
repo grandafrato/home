@@ -269,6 +269,11 @@
     }
   '';
 
+  xdg.configFile."cosmic" = {
+    source = ./home/cosmic;
+    recursive = true;
+  };
+
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = ["qemu:///system"];
