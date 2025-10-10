@@ -43,6 +43,9 @@
     vlc
     inkscape
     wl-clipboard
+    protonmail-bridge-gui
+    protonvpn-gui
+    proton-pass
   ];
 
   programs.firefox = {
