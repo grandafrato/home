@@ -2,7 +2,7 @@
     state: Enabled,
     acceleration: Some((
         profile: None,
-        speed: 0.2506703436571913,
+        speed: 0.25,
     )),
     scroll_config: Some((
         method: None,
