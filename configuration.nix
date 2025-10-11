@@ -83,6 +83,7 @@
       "wheel"
       "render"
       "adbusers"
+      "kvm"
       "libvirtd"
       "video"
       "gamemode"
@@ -98,7 +99,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 14d";
+    options = "--delete-older-than 7d";
   };
 
   nix.settings = {
@@ -257,18 +258,6 @@
 
   programs.adb.enable = true;
 
-  # Enable virtual machines
-  programs.virt-manager.enable = true;
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true;
-    };
-  };
-  virtualisation.spiceUSBRedirection.enable = true;
-
   virtualisation = {
     containers.enable = true;
     podman.enable = true;
@@ -282,30 +271,6 @@
       "--loadavg-target"
       "5.0"
     ];
-  };
-
-  specialisation.vm-passthrough.configuration = {
-    boot.initrd.kernelModules = [
-      "vfio_pci"
-      "vfio"
-      "vfio_iommu_type1"
-    ];
-    boot.kernelParams = let
-      gpu_thing_ids = [
-        "8086:462f"
-        "1002:73df"
-        "1002:ab28"
-      ];
-    in [
-      "intel_iommu=on"
-      "iommu=pt"
-      ("vifio-pci.ids=" + lib.concatStringsSep "," gpu_thing_ids)
-    ];
-
-    hardware.amdgpu.initrd.enable = false;
-    boot.blacklistedKernelModules = ["amdgpu"];
-
-    services.dnsmasq.enable = true;
   };
 
   services.desktopManager.cosmic = {
