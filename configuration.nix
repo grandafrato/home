@@ -22,6 +22,7 @@
     hostName = "chargeman-ken";
     networkmanager.enable = true;
     interfaces.wlp0s20f3.useDHCP = true;
+    firewall.trustedInterfaces = ["virbr0"];
   };
 
   # Set your time zone.
