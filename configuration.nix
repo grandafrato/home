@@ -291,7 +291,7 @@
       "vfio_iommu_type1"
     ];
     boot.kernelParams = let
-      gpu_thing_ids = [
+      gpu_and_component_ids = [
         "8086:462f"
         "1002:73df"
         "1002:ab28"
@@ -299,13 +299,11 @@
     in [
       "intel_iommu=on"
       "iommu=pt"
-      ("vifio-pci.ids=" + lib.concatStringsSep "," gpu_thing_ids)
+      ("vifio-pci.ids=" + lib.concatStringsSep "," gpu_and_component_ids)
     ];
 
     hardware.amdgpu.initrd.enable = false;
     boot.blacklistedKernelModules = ["amdgpu"];
-
-    services.dnsmasq.enable = true;
   };
 
   services.desktopManager.cosmic = {
