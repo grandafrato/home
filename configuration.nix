@@ -4,6 +4,7 @@
 {
   pkgs,
   lib,
+  winappsPkgs,
   ...
 }: {
   imports = [
@@ -84,6 +85,7 @@
       "wheel"
       "render"
       "adbusers"
+      "kvm"
       "libvirtd"
       "video"
       "gamemode"
@@ -166,6 +168,7 @@
   environment = {
     variables = {
       RADV_PERFTEST = "dmashaders";
+      LIBVERT_DEFAULT_URI = "qemu:///system";
     };
     systemPackages = with pkgs; [
       vim
@@ -175,6 +178,10 @@
       hunspell
       hunspellDicts.en_US
       protonup-qt
+      winappsPkgs.winapps
+      winappsPkgs.winapps-launcher
+      freerdp
+      lutris
     ];
   };
 

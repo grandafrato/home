@@ -184,8 +184,6 @@
     };
   };
 
-  qt.enable = true;
-
   programs.btop.enable = true;
   programs.bat.enable = true;
 
@@ -251,26 +249,6 @@
     # Adapted from /var/lib/libvirt/qemu.conf
     # Note that AAVMF and OVMF are for Aarch64 and x86 respectively
     nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
-  '';
-
-  xdg.configFile."openvr/openvrpaths.vrpath".text = ''
-    {
-      "config" :
-      [
-        "${config.xdg.dataHome}/Steam/config"
-      ],
-      "external_drivers" : null,
-      "jsonid" : "vrpathreg",
-      "log" :
-      [
-        "${config.xdg.dataHome}/Steam/logs"
-      ],
-      "runtime" :
-      [
-        "${pkgs.opencomposite}/lib/opencomposite"
-      ],
-      "version" : 1
-    }
   '';
 
   xdg.configFile."cosmic" = {

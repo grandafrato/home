@@ -17,6 +17,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
+    winapps = {
+      url = "github:winapps-org/winapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -25,6 +29,7 @@
     stylix,
     nixvim,
     nixos-hardware,
+    winapps,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -34,7 +39,10 @@
     };
   in {
     nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+        winappsPkgs = winapps.packages.${system};
+      };
       modules = [
         ./configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
