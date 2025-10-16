@@ -45,7 +45,6 @@
     wl-clipboard
     protonmail-bridge-gui
     protonvpn-gui
-    proton-pass
   ];
 
   programs.firefox = {
@@ -173,8 +172,8 @@
         name = "Carlito";
       };
       sansSerif = {
-        package = pkgs.poly;
-        name = "Poly";
+        package = pkgs.vegur;
+        name = "Vegur";
       };
     };
     cursor = {
