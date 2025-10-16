@@ -26,7 +26,7 @@
     monero-cli
     p2pool
     tree
-    lmstudio
+    (pkgs.callPackage ./lmstudio.nix {})
     prismlauncher
     zoom-us
     slack
