@@ -226,8 +226,6 @@
 
   programs.git = {
     enable = true;
-    userEmail = "github.defender025@passmail.net";
-    userName = "Lachlan Wilger";
     signing = {
       key = "19827F0EE0558030";
       signByDefault = true;
@@ -236,7 +234,9 @@
       "*~"
       "*.swp"
     ];
-    extraConfig = {
+    settings = {
+      user.email = "github.defender025@passmail.net";
+      user.name = "Lachlan Wilger";
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
     };

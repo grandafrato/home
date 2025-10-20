@@ -269,6 +269,7 @@
   programs.virt-manager.enable = true;
   virtualisation.libvirtd = {
     enable = true;
+    allowedBridges = ["virb0"];
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
