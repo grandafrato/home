@@ -38,7 +38,7 @@
     freecad-wayland
     openscad
     kicad
-    dissent
+    discord
     pods
     vlc
     inkscape
