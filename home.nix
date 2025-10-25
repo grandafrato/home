@@ -19,7 +19,7 @@
   home.packages = with pkgs; [
     blender-hip
     feather
-    rpcs3
+    #rpcs3
     kdePackages.kleopatra
     kdePackages.ark
     #kdePackages.elisa
@@ -43,8 +43,6 @@
     vlc
     inkscape
     wl-clipboard
-    protonmail-bridge-gui
-    protonvpn-gui
   ];
 
   programs.firefox = {
@@ -102,6 +100,36 @@
     };
   };
   stylix.targets.firefox.profileNames = ["default"];
+
+  services.easyeffects = let
+    gentleDynamics = pkgs.fetchFromGitHub {
+      owner = "droidwayin";
+      repo = "GentleDynamics";
+      rev = "a57272822a7f8ed8aa886414709647032716a776";
+      hash = "sha256-c4B3vk/kef7B1u0OiYdb7VWa7qiQeHZ0yxKB5vKZyeE=";
+    };
+    voice = pkgs.fetchzip {
+      url = "https://gist.github.com/jtrv/47542c8be6345951802eebcf9dc7da31/archive/c0a71a61e30856989a6dc109b59873e3f3ea697d.zip";
+      hash = "sha256-aaViZbmK0X5y4uYe1bLabEpPGIwhXcztxxW3euPHTvU=";
+    };
+  in {
+    enable = true;
+    extraPresets = {
+      GentleDynamics = builtins.fromJSON (
+        builtins.readFile "${gentleDynamics}/GentleDynamics.json"
+      );
+      "GentleDynamics Feather Loudness" = builtins.fromJSON (
+        builtins.readFile "${gentleDynamics}/GentleDynamics Feather Loudness.json"
+      );
+      "GentleDynamics Dialogue Clarity Engine" = builtins.fromJSON (
+        builtins.readFile "${gentleDynamics}/GentleDynamics Dialogue Clarity Engine.json"
+      );
+      "EasyEffects Microphone Preset: Masc NPR Voice + Noise Reduction" = builtins.fromJSON (
+        builtins.readFile "${voice}/EasyEffects Microphone Preset: Masc NPR Voice + Noise Reduction.json"
+      );
+    };
+    preset = "GentleDynamics Feather Loudness";
+  };
 
   programs.thunderbird = {
     enable = true;
