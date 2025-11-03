@@ -118,26 +118,11 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    wireplumber = {
-      enable = true;
-      configPackages = [
-        (pkgs.writeTextDir "share/wireplumber/main.lua.d/99-alsa-usb-dac.lua" ''
-          rule = {
-            matches = {{{"node.name", "matches", "alsa_output.usb-MOONDROP_MOONDROP_Dawn_Pro_MOONDROP_Dawn_Pro-00.*"}}},
-            apply_properties = {
-              ["audio.format"] = "S32LE",
-              ["audio.rate"] = 384000,
-            },
-          }
-
-          table.insert(alsa_monitor.rules, rule)
-        '')
-      ];
-    };
+    wireplumber.enable = true;
     extraConfig.pipewire = {
       "98-sample-rates" = {
         "context.properties" = {
-          "default.clock.rate" = 192000;
+          "default.clock.rate" = 48000;
           "default.clock.allowed-rates" = [
             44100
             48000
@@ -145,8 +130,8 @@
             192000
             384000
           ];
-          "default.clock.quantum" = 1024;
-          "default.clock.min-quantum" = 32;
+          "default.clock.quantum" = 4096;
+          "default.clock.min-quantum" = 4096;
           "default.clock.max-quantum" = 8192;
         };
       };
@@ -241,11 +226,11 @@
   services.fwupd.enable = true;
 
   # VR stuff
-  # services.wivrn = {
-  #   enable = true;
-  #   defaultRuntime = true;
-  #   openFirewall = true;
-  # };
+  services.wivrn = {
+    enable = true;
+    defaultRuntime = true;
+    openFirewall = true;
+  };
   # boot.kernelPatches = [
   #   {
   #     name = "amdgpu-ignore-ctx-privileges";

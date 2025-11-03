@@ -19,7 +19,7 @@
   home.packages = with pkgs; [
     blender-hip
     feather
-    #rpcs3
+    rpcs3
     kdePackages.kleopatra
     kdePackages.ark
     #kdePackages.elisa
@@ -44,6 +44,8 @@
     inkscape
     wl-clipboard
   ];
+
+  services.protonmail-bridge.enable = true;
 
   programs.firefox = {
     enable = true;
@@ -223,6 +225,22 @@
   };
 
   programs.nixvim = import ./nixvim.nix {inherit pkgs;};
+
+  programs.zed-editor = {
+    enable = true;
+    extensions = [
+      "elixir"
+      "nix"
+      "ziggy"
+      "zig"
+    ];
+    userSettings = {
+      telemetry.metrics = false;
+      vim_mode = true;
+      terminal.shell.program = "nu";
+      buffer_font_size = lib.mkForce 12;
+    };
+  };
 
   programs.starship = {
     enable = true;
