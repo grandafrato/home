@@ -140,6 +140,11 @@
 
   programs.helix.enable = true;
 
+  programs.opencode = {
+    enable = true;
+    package = pkgs.callPackage ./opencode.nix {};
+  };
+
   programs.nushell = {
     enable = true;
     shellAliases = {
@@ -153,6 +158,8 @@
       gaa = "git add -A";
       gc = "git commit";
       gcl = "git clone";
+      gd = "git diff";
+      gl = "git log";
       gp = "git push";
     };
     environmentVariables.EDITOR = "nvim";
