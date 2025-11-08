@@ -146,6 +146,14 @@
     settings.General.Enable = "Source,Sink,Media,Socket";
   };
 
+  programs.kdeconnect.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   hardware.brillo.enable = true;
 
   # List packages installed in system profile. To search, run:
