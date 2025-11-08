@@ -174,7 +174,6 @@
       winappsPkgs.winapps
       winappsPkgs.winapps-launcher
       freerdp
-      lutris
     ];
   };
 
@@ -318,6 +317,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    extraPackages = with pkgs; [vpl-gpu-rt];
   };
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
 

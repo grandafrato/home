@@ -140,10 +140,7 @@
 
   programs.helix.enable = true;
 
-  programs.opencode = {
-    enable = true;
-    package = pkgs.callPackage ./opencode.nix {};
-  };
+  programs.opencode.enable = true;
 
   programs.nushell = {
     enable = true;
