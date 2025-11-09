@@ -30,6 +30,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
+    quickshell = {
+      url = "github:outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.follows = "quickshell";
+    };
+    niri.url = "github:sodiboo/niri-flake";
   };
 
   outputs = {
@@ -39,8 +49,9 @@
     nixvim,
     nixos-hardware,
     winapps,
-    lix,
     lix-module,
+    noctalia,
+    niri,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -62,10 +73,16 @@
           home-manager = {
             useUserPackages = true;
             users."lachlan" = ./home.nix;
-            sharedModules = [stylix.homeModules.stylix];
+            sharedModules = [
+              stylix.homeModules.stylix
+              noctalia.homeModules.default
+              niri.homeModules.niri
+              niri.homeModules.stylix
+            ];
             extraSpecialArgs = {inherit nixvim;};
           };
         }
+        stylix.nixosModules.stylix
         lix-module.nixosModules.default
       ];
     };

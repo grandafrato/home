@@ -223,7 +223,7 @@
     cursor = {
       name = "macOS";
       package = pkgs.apple-cursor;
-      size = 32;
+      size = 24;
     };
   };
 
@@ -303,6 +303,155 @@
   };
 
   services.mpris-proxy.enable = true;
+
+  programs.niri = {
+    enable = true;
+    settings = {
+      spawn-at-startup = [
+        {command = ["noctalia-shell"];}
+      ];
+
+      input = {
+        keyboard.numlock = true;
+
+        touchpad = {
+          accel-speed = 0.5;
+          accel-profile = "adaptive";
+          dwt = true;
+          dwtp = true;
+          drag = true;
+          drag-lock = true;
+          natural-scroll = true;
+          tap = true;
+        };
+
+        trackpoint = {
+          accel-speed = 0.2;
+          accel-profile = "flat";
+        };
+
+        warp-mouse-to-focus.enable = true;
+        focus-follows-mouse = {
+          enable = true;
+          max-scroll-amount = "0%";
+        };
+      };
+
+      layout = {
+        gaps = 8;
+        center-focused-column = "never";
+        preset-column-widths = [
+          {proportion = 0.333333;}
+          {proportion = 0.5;}
+          {proportion = 0.666667;}
+        ];
+        default-column-width = {proportion = 0.5;};
+        focus-ring = {
+          enable = true;
+          width = 2;
+        };
+        border.enable = false;
+        shadow = {
+          enable = true;
+          softness = 30;
+          spread = 5;
+          offset = {
+            x = 1;
+            y = 5;
+          };
+        };
+      };
+
+      window-rules = [
+        {
+          matches = [
+            {
+              app-id = "firefox$";
+              title = "^Picture-in-Picture$";
+            }
+          ];
+          open-floating = true;
+        }
+        {
+          geometry-corner-radius = {
+            bottom-left = 10.0;
+            top-left = 10.0;
+            bottom-right = 10.0;
+            top-right = 10.0;
+          };
+          clip-to-geometry = true;
+        }
+      ];
+
+      layer-rules = [{
+        matches = [{namespace="^noctalia-overview";}];
+        place-within-backdrop = true;
+      }];
+
+      debug.honor-xdg-activation-with-invalid-serial = [];
+
+      binds = with config.lib.niri.actions; let
+        noctalia = cmd:
+          [
+            "noctalia-shell"
+            "ipc"
+            "call"
+          ]
+          ++ (pkgs.lib.splitString " " cmd);
+      in {
+        "XF86AudioRaiseVolume".action.spawn = noctalia "volume increase";
+        "XF86AudioLowerVolume".action.spawn = noctalia "volume decrease";
+        "XF86AudioMute".action.spawn = noctalia "volume muteOutput";
+        "XF86AudioMicMute".action.spawn = noctalia "volume muteInput";
+
+        "Mod+T".action = spawn "kitty";
+        "Mod+F".action = spawn "firefox";
+        "Mod+A".action.spawn = noctalia "launcher toggle";
+      };
+    };
+  };
+  programs.noctalia-shell = {
+    enable = true;
+    settings = {
+      dock.enabled = false;
+
+      location = {
+        name = "Portland, OR";
+        useFahrenheit = true;
+        use12hourFormat = true;
+      };
+
+      ui = {
+        fontDefualt = config.stylix.fonts.sansSerif.name;
+        fontFixed = config.stylix.fonts.monospace.name;
+      };
+
+      appLauncher.terminalCommand = "kitty";
+
+      wallpaper = {
+        enabled = true;
+        overviewEnabled = true;
+        defaultWallpaper = ./backgrounds/Mountains.png;
+      };
+    };
+
+    colors = with config.lib.stylix.colors; {
+      mError = "#${base08}";
+      mOnError = "#${base00}";
+      mOnPrimary = "#${base00}";
+      mOnSecondary = "#${base00}";
+      mOnSurface = "#${base04}";
+      mOnSurfaceVariant = "#${base04}";
+      mOnTertiary = "#${base00}";
+      mOutline = "#${base02}";
+      mPrimary = "#${base0B}";
+      mSecondary = "#${base0A}";
+      mShadow = "#${base00}";
+      mSurface = "#${base00}";
+      mSurfaceVariant = "#${base01}";
+      mTertiary = "#${base0D}";
+    };
+  };
 
   xdg.configFile."libvirt/qemu.conf".text = ''
     # Adapted from /var/lib/libvirt/qemu.conf

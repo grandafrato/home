@@ -5,6 +5,7 @@
   pkgs,
   lib,
   winappsPkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -51,6 +52,7 @@
   };
 
   services.power-profiles-daemon.enable = false;
+  services.upower.enable = true;
   services.thermald.enable = true;
   services.tlp = {
     enable = true;
@@ -96,7 +98,10 @@
   users.groups.libvirtd.members = ["lachlan"];
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [inputs.niri.overlays.niri];
+  };
 
   nix.gc = {
     automatic = true;
@@ -130,7 +135,7 @@
             192000
             384000
           ];
-          "default.clock.quantum" = 4096;
+          "default.clock.quantum" = 1024;
           "default.clock.min-quantum" = 4096;
           "default.clock.max-quantum" = 8192;
         };
@@ -185,6 +190,11 @@
       brightness_down_cmd = "${pkgs.brillo}/bin/brillo -q -U 5";
       brightness_up_cmd = "${pkgs.brillo}/bin/brillo -q -A 5";
     };
+  };
+
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri-stable;
   };
 
   services.interception-tools = let
@@ -306,12 +316,6 @@
     hardware.amdgpu.initrd.enable = false;
     boot.blacklistedKernelModules = ["amdgpu"];
   };
-
-  services.desktopManager.cosmic = {
-    enable = true;
-    xwayland.enable = true;
-  };
-  environment.cosmic.excludePackages = with pkgs; [cosmic-player cosmic-edit cosmic-term];
 
   # Graphics
   hardware.graphics = {
