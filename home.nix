@@ -54,16 +54,6 @@
 
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox (pkgs.firefox-unwrapped.overrideAttrs (oldAttrs: {
-      patches =
-        (oldAttrs.patches or [])
-        ++ [
-          (pkgs.fetchpatch {
-            url = "https://raw.githubusercontent.com/mrxz/webxr-linux/e5c2290d61913726ff6c8c56c73cc36fe08a5cd3/gecko/webxr-linux-dmabuf.patch";
-            hash = "sha256-5AJDsPZIpxCXKp1nvzykXKY9fwWW3B7ZPkfRY8pL6pI=";
-          })
-        ];
-    })) {};
     profiles.default = {
       path = "xvud1yza.default";
       search.force = true;
