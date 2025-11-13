@@ -79,7 +79,7 @@
               niri.homeModules.niri
               niri.homeModules.stylix
             ];
-            extraSpecialArgs = {inherit nixvim;};
+            extraSpecialArgs = {inherit nixvim niri;};
           };
         }
         stylix.nixosModules.stylix
