@@ -11,6 +11,8 @@
         {command = ["noctalia-shell"];}
       ];
 
+      hotkey-overlay.skip-at-startup = true;
+
       input = {
         keyboard.numlock = true;
 
@@ -26,7 +28,7 @@
         };
 
         trackpoint = {
-          accel-speed = 0.2;
+          accel-speed = 0.3;
           accel-profile = "flat";
         };
 
@@ -64,9 +66,31 @@
         };
       };
 
-      outputs."eDP-1" = {
-        enable = true;
-        scale = 0.98;
+      gestures.hot-corners.enable = false;
+
+      outputs = {
+        "eDP-1" = {
+          enable = true;
+          scale = 0.98; # makes logical size 1952x1220
+          position = {
+            x = 0;
+            y = 0;
+          };
+        };
+
+        "ASUSTek COMPUTER INC VG275 M8LMQS134325" = {
+          enable = true;
+          mode = {
+            width = 1920;
+            height = 1080;
+            refresh = 74.977;
+          };
+          # put screen centered above laptop
+          position = {
+            x = 16;
+            y = 1220;
+          };
+        };
       };
 
       window-rules = [
@@ -108,17 +132,63 @@
           ]
           ++ (lib.splitString " " cmd);
       in {
-        "XF86AudioRaiseVolume".action.spawn = noctalia "volume increase";
-        "XF86AudioLowerVolume".action.spawn = noctalia "volume decrease";
-        "XF86AudioMute".action.spawn = noctalia "volume muteOutput";
-        "XF86AudioMicMute".action.spawn = noctalia "volume muteInput";
+        "Mod+Shift+Slash".action = show-hotkey-overlay;
 
-        "Mod+T".action = spawn "kitty";
-        "Mod+B".action = spawn "firefox";
-        "Mod+A".action.spawn = noctalia "launcher toggle";
+        "XF86AudioRaiseVolume" = {
+          allow-when-locked = true;
+          action.spawn = noctalia "volume increase";
+        };
+        "XF86AudioLowerVolume" = {
+          allow-when-locked = true;
+          action.spawn = noctalia "volume decrease";
+        };
+        "XF86AudioMute" = {
+          allow-when-locked = true;
+          action.spawn = noctalia "volume muteOutput";
+        };
+        "XF86AudioMicMute" = {
+          allow-when-locked = true;
+          action.spawn = noctalia "volume muteInput";
+        };
 
-        "Mod+Q".action = close-window;
+        "XF86MonBrightnessUp" = {
+          allow-when-locked = true;
+          action.spawn = noctalia "brightness increase";
+        };
+        "XF86MonBrightnessDown" = {
+          allow-when-locked = true;
+          action.spawn = noctalia "brightness decrease";
+        };
+
+        "Mod+T" = {
+          hotkey-overlay.title = "Open Terminal: Kitty";
+          action = spawn "kitty";
+        };
+        "Mod+B" = {
+          hotkey-overlay.title = "Open Web Browser: Firefox";
+          action = spawn "firefox";
+        };
+        "Mod+A" = {
+          hotkey-overlay.title = "Open App Launcher";
+          action.spawn = noctalia "launcher toggle";
+        };
+
+        "Mod+Q" = {
+          repeat = false;
+          action = close-window;
+        };
         "Mod+Shift+Q".action = quit;
+        "Mod+Alt+L".action.spawn = noctalia "lockScreen lock";
+
+        "Mod+U" = {
+          repeat = false;
+          action = toggle-overview;
+        };
+
+        "Mod+Escape" = {
+          allow-inhibiting = false;
+          action = toggle-keyboard-shortcuts-inhibit;
+        };
 
         "Mod+H".action = focus-column-left;
         "Mod+J".action = focus-window-down;
@@ -148,13 +218,23 @@
         "Mod+Period".action = expel-window-from-column;
 
         "Mod+R".action = switch-preset-column-width;
+        "Mod+Ctrl+R".action = reset-window-height;
         "Mod+F".action = maximize-column;
         "Mod+Shift+F".action = fullscreen-window;
+        "Mod+Ctrl+F".action = expand-column-to-available-width;
+
+        "Mod+C".action = center-column;
+        "Mod+Ctrl+C".action = center-visible-columns;
 
         "Mod+Minus".action = set-column-width "-10%";
         "Mod+Equal".action = set-column-width "+10%";
         "Mod+Shift+Minus".action = set-window-height "-10%";
         "Mod+Shift+Equal".action = set-window-height "+10%";
+
+        "Mod+V".action = toggle-window-floating;
+        "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
+
+        "Mod+W".action = toggle-column-tabbed-display;
       };
 
       xwayland-satellite = {
