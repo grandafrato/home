@@ -30,14 +30,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
-    quickshell = {
-      url = "github:outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell";
     };
     niri.url = "github:sodiboo/niri-flake";
   };

@@ -74,7 +74,7 @@
           scale = 0.98; # makes logical size 1952x1220
           position = {
             x = 0;
-            y = 0;
+            y = 1220;
           };
         };
 
@@ -88,7 +88,7 @@
           # put screen centered above laptop
           position = {
             x = 16;
-            y = 1220;
+            y = 0;
           };
         };
       };
@@ -200,10 +200,16 @@
         "Mod+Shift+K".action = move-window-up;
         "Mod+Shift+L".action = move-column-right;
 
+
         "Mod+Ctrl+H".action = focus-monitor-left;
         "Mod+Ctrl+J".action = focus-monitor-down;
         "Mod+Ctrl+K".action = focus-monitor-up;
         "Mod+Ctrl+L".action = focus-monitor-right;
+
+        "Mod+Shift+Ctrl+H".action = move-window-to-monitor-left;
+        "Mod+Shift+Ctrl+J".action = move-window-to-monitor-down;
+        "Mod+Shift+Ctrl+K".action = move-window-to-monitor-up;
+        "Mod+Shift+Ctrl+L".action = move-window-to-monitor-right;
 
         "Mod+O".action = focus-workspace-down;
         "Mod+I".action = focus-workspace-up;

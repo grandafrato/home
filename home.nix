@@ -24,9 +24,10 @@
     blender-hip
     feather
     rpcs3
-    kdePackages.kleopatra
     kdePackages.ark
+    kdePackages.dolphin
     #kdePackages.elisa
+    kdePackages.kleopatra
     monero-cli
     p2pool
     tree
@@ -43,7 +44,6 @@
     openscad
     kicad
     discord
-    pods
     vlc
     inkscape
     wl-clipboard
