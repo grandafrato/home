@@ -91,6 +91,7 @@
       "libvirtd"
       "video"
       "gamemode"
+      "i2c"
     ];
     packages = with pkgs; [podman-tui];
     shell = pkgs.nushell;
@@ -179,6 +180,7 @@
       winappsPkgs.winapps
       winappsPkgs.winapps-launcher
       freerdp
+      ddcutil # external monitor brightness
     ];
   };
 
@@ -196,6 +198,18 @@
     enable = true;
     package = pkgs.niri-stable;
   };
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
+    ];
+  };
+
+  # external monitor brightness
+  hardware.i2c.enable = true;
 
   services.interception-tools = let
     itools = pkgs.interception-tools;

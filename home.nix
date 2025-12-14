@@ -37,6 +37,7 @@
     slack
     rhythmbox
     wlx-overlay-s
+    wayvr-dashboard
     raider
     rnote
     tor-browser
