@@ -200,7 +200,6 @@
         "Mod+Shift+K".action = move-window-up;
         "Mod+Shift+L".action = move-column-right;
 
-
         "Mod+Ctrl+H".action = focus-monitor-left;
         "Mod+Ctrl+J".action = focus-monitor-down;
         "Mod+Ctrl+K".action = focus-monitor-up;
@@ -260,17 +259,31 @@
         use12hourFormat = true;
       };
 
-      bar.widgets.right = [
-        {id = "Tray";}
-        {id = "NotificationHistory";}
-        {id = "Battery";}
-        {id = "Volume";}
-        {id = "Brightness";}
-        {
-          id = "Clock";
-          formatHorizontal = "h:mm ap ddd, MMM dd";
-        }
-      ];
+      controlCenter.position = "top_left";
+
+      bar.widgets = {
+        left = [
+          {
+            icon = "rocket";
+            id = "CustomButton";
+            leftClickExec = "noctalia-shell ipc call controlCenter toggle";
+          }
+          {id = "SystemMonitor";}
+          {id = "MediaMini";}
+        ];
+        center = [{id = "Workspace";}];
+        right = [
+          {id = "Tray";}
+          {id = "NotificationHistory";}
+          {id = "Battery";}
+          {id = "Volume";}
+          {id = "Brightness";}
+          {
+            id = "Clock";
+            formatHorizontal = "h:mm ap. ddd, MMM dd";
+          }
+        ];
+      };
 
       ui = {
         fontDefualt = config.stylix.fonts.sansSerif.name;
@@ -284,23 +297,6 @@
         overviewEnabled = true;
         defaultWallpaper = ./backgrounds/Mountains.png;
       };
-    };
-
-    colors = with config.lib.stylix.colors; {
-      mError = "#${base08}";
-      mOnError = "#${base00}";
-      mOnPrimary = "#${base00}";
-      mOnSecondary = "#${base00}";
-      mOnSurface = "#${base04}";
-      mOnSurfaceVariant = "#${base04}";
-      mOnTertiary = "#${base00}";
-      mOutline = "#${base02}";
-      mPrimary = "#${base0B}";
-      mSecondary = "#${base0A}";
-      mShadow = "#${base00}";
-      mSurface = "#${base00}";
-      mSurfaceVariant = "#${base01}";
-      mTertiary = "#${base0D}";
     };
   };
 }
