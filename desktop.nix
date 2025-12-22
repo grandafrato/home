@@ -6,6 +6,7 @@
 }: {
   programs.niri = {
     enable = true;
+    package = pkgs.niri;
     settings = {
       spawn-at-startup = [
         {command = ["noctalia-shell"];}
@@ -295,7 +296,7 @@
       wallpaper = {
         enabled = true;
         overviewEnabled = true;
-        defaultWallpaper = ./backgrounds/Mountains.png;
+        transitionType = "none";
       };
     };
   };

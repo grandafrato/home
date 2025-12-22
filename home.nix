@@ -53,6 +53,8 @@
 
   services.protonmail-bridge.enable = true;
 
+  qt.enable = true;
+
   programs.firefox = {
     enable = true;
     profiles.default = {
