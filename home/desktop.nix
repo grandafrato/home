@@ -247,6 +247,12 @@
   programs.noctalia-shell = {
     enable = true;
     settings = {
+      general = {
+        avatarImage = ./face.png;
+        enableShadows = false;
+        language = "en";
+      };
+
       dock.enabled = false;
 
       location = {
