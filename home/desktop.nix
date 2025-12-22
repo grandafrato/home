@@ -56,15 +56,7 @@
           width = 2;
         };
         border.enable = false;
-        shadow = {
-          enable = true;
-          softness = 30;
-          spread = 5;
-          offset = {
-            x = 1;
-            y = 5;
-          };
-        };
+        shadow.enable = false;
       };
 
       gestures.hot-corners.enable = false;
@@ -179,7 +171,10 @@
           action = close-window;
         };
         "Mod+Shift+Q".action = quit;
-        "Mod+Alt+L".action.spawn = noctalia "lockScreen lock";
+        "Mod+Alt+L" = {
+          hotkey-overlay.title = "Lock Screen";
+          action.spawn = noctalia "lockScreen lock";
+        };
 
         "Mod+U" = {
           repeat = false;
