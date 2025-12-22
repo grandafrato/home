@@ -16,7 +16,7 @@
     overlays = [niri.overlays.niri];
   };
 
-  imports = [nixvim.homeModules.nixvim ./desktop.nix];
+  imports = [nixvim.homeModules.nixvim ./home/desktop.nix];
 
   programs.home-manager.enable = true;
 
@@ -307,11 +307,6 @@
     # Note that AAVMF and OVMF are for Aarch64 and x86 respectively
     nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
   '';
-
-  xdg.configFile."cosmic" = {
-    source = ./home/cosmic;
-    recursive = true;
-  };
 
   dconf.settings = {
     "org/virt-manager/virt-manager/connections" = {
