@@ -203,7 +203,7 @@
     enable = true;
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
-    image = ./backgrounds/Mountains.png;
+    image = ./backgrounds/awesome-tree.jpg;
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
