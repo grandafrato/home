@@ -299,6 +299,12 @@
         overviewEnabled = true;
         transitionType = "none";
       };
+
+      brightness = {
+        brightnessStep = 5;
+        enforceMinimum = false;
+        enableDdcSupport = true;
+      };
     };
   };
 }
