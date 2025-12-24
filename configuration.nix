@@ -339,12 +339,6 @@
   };
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
 
-  services.sunshine = {
-    enable = true;
-    capSysAdmin = true;
-    openFirewall = true;
-  };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
