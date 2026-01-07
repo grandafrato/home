@@ -170,6 +170,7 @@
       LIBVERT_DEFAULT_URI = "qemu:///system";
     };
     systemPackages = with pkgs; [
+      android-tools
       vim
       git
       unzip
@@ -229,6 +230,7 @@
 
   programs.steam = {
     enable = true;
+    package = pkgs.steam.override {extraArgs = "-system-composer";}; #Niri needs this.
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
@@ -278,8 +280,6 @@
     package = pkgs.transmission_4-qt;
     openPeerPorts = true;
   };
-
-  programs.adb.enable = true;
 
   # Enable virtual machines
   programs.virt-manager.enable = true;

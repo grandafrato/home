@@ -21,7 +21,7 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    blender-hip
+    pkgsRocm.blender
     feather
     rpcs3
     kdePackages.ark
