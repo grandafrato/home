@@ -17,10 +17,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    winapps = {
-      url = "github:winapps-org/winapps";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
       flake = false;
@@ -43,7 +39,6 @@
     stylix,
     nixvim,
     nixos-hardware,
-    winapps,
     lix-module,
     noctalia,
     niri,
@@ -56,10 +51,7 @@
     };
   in {
     nixosConfigurations.chargeman-ken = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-        winappsPkgs = winapps.packages.${system};
-      };
+      specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
         nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen

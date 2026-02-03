@@ -4,7 +4,6 @@
 {
   pkgs,
   lib,
-  winappsPkgs,
   inputs,
   ...
 }: {
@@ -178,8 +177,6 @@
       hunspell
       hunspellDicts.en_US
       protonup-qt
-      winappsPkgs.winapps
-      winappsPkgs.winapps-launcher
       freerdp
       ddcutil # external monitor brightness
     ];

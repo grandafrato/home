@@ -26,7 +26,6 @@
     rpcs3
     kdePackages.ark
     kdePackages.dolphin
-    #kdePackages.elisa
     kdePackages.kleopatra
     monero-cli
     p2pool
@@ -36,14 +35,13 @@
     zoom-us
     slack
     rhythmbox
-    wlx-overlay-s
-    wayvr-dashboard
+    wayvr
     raider
     rnote
     tor-browser
-    freecad-wayland
-    openscad
-    kicad
+    #freecad-wayland
+    #openscad
+    #kicad
     discord
     vlc
     inkscape
