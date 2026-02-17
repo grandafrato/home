@@ -161,6 +161,11 @@
           hotkey-overlay.title = "Open Web Browser: Firefox";
           action = spawn "firefox";
         };
+        "Mod+E" = {
+          hotkey-overlay.title = "Open File Explorer";
+          action = spawn "cosmic-files";
+        };
+
         "Mod+A" = {
           hotkey-overlay.title = "Open App Launcher";
           action.spawn = noctalia "launcher toggle";

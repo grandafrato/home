@@ -159,8 +159,6 @@
     openFirewall = true;
   };
 
-  hardware.brillo.enable = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -182,15 +180,7 @@
     ];
   };
 
-  services.displayManager.ly = {
-    enable = true;
-    settings = {
-      animation = "colormix";
-      bigclock = "en";
-      brightness_down_cmd = "${pkgs.brillo}/bin/brillo -q -U 5";
-      brightness_up_cmd = "${pkgs.brillo}/bin/brillo -q -A 5";
-    };
-  };
+  services.displayManager.cosmic-greeter.enable = true;
 
   programs.niri = {
     enable = true;

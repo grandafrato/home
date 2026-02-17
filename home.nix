@@ -25,19 +25,15 @@
     feather
     rpcs3
     kdePackages.ark
-    kdePackages.dolphin
+    cosmic-files
     kdePackages.kleopatra
     monero-cli
     p2pool
     tree
-    (pkgs.callPackage ./lmstudio.nix {})
     prismlauncher
-    zoom-us
-    slack
     rhythmbox
     wayvr
     raider
-    rnote
     tor-browser
     #freecad-wayland
     #openscad
