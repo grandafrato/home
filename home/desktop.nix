@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  ashell,
   ...
 }: {
   programs.niri = {
@@ -9,7 +10,7 @@
     package = pkgs.niri-unstable;
     settings = {
       spawn-at-startup = [
-        {command = ["noctalia-shell"];}
+        {command = ["ashell"];}
       ];
 
       hotkey-overlay.skip-at-startup = true;
@@ -107,51 +108,34 @@
         }
       ];
 
-      layer-rules = [
-        {
-          matches = [{namespace = "^noctalia-overview";}];
-          place-within-backdrop = true;
-        }
-      ];
-
-      debug.honor-xdg-activation-with-invalid-serial = [];
-
-      binds = with config.lib.niri.actions; let
-        noctalia = cmd:
-          [
-            "noctalia-shell"
-            "ipc"
-            "call"
-          ]
-          ++ (lib.splitString " " cmd);
-      in {
+      binds = with config.lib.niri.actions; {
         "Mod+Shift+Slash".action = show-hotkey-overlay;
 
-        "XF86AudioRaiseVolume" = {
-          allow-when-locked = true;
-          action.spawn = noctalia "volume increase";
-        };
-        "XF86AudioLowerVolume" = {
-          allow-when-locked = true;
-          action.spawn = noctalia "volume decrease";
-        };
-        "XF86AudioMute" = {
-          allow-when-locked = true;
-          action.spawn = noctalia "volume muteOutput";
-        };
-        "XF86AudioMicMute" = {
-          allow-when-locked = true;
-          action.spawn = noctalia "volume muteInput";
-        };
+        # "XF86AudioRaiseVolume" = {
+        #   allow-when-locked = true;
+        #   action.spawn = noctalia "volume increase";
+        # };
+        # "XF86AudioLowerVolume" = {
+        #   allow-when-locked = true;
+        #   action.spawn = noctalia "volume decrease";
+        # };
+        # "XF86AudioMute" = {
+        #   allow-when-locked = true;
+        #   #action.spawn = noctalia "volume muteOutput";
+        # };
+        # "XF86AudioMicMute" = {
+        #   allow-when-locked = true;
+        #   action.spawn = noctalia "volume muteInput";
+        # };
 
-        "XF86MonBrightnessUp" = {
-          allow-when-locked = true;
-          action.spawn = noctalia "brightness increase";
-        };
-        "XF86MonBrightnessDown" = {
-          allow-when-locked = true;
-          action.spawn = noctalia "brightness decrease";
-        };
+        # "XF86MonBrightnessUp" = {
+        #   allow-when-locked = true;
+        #   action.spawn = noctalia "brightness increase";
+        # };
+        # "XF86MonBrightnessDown" = {
+        #   allow-when-locked = true;
+        #   action.spawn = noctalia "brightness decrease";
+        # };
 
         "Mod+T" = {
           hotkey-overlay.title = "Open Terminal: Kitty";
@@ -166,20 +150,20 @@
           action = spawn "cosmic-files";
         };
 
-        "Mod+A" = {
-          hotkey-overlay.title = "Open App Launcher";
-          action.spawn = noctalia "launcher toggle";
-        };
+        # "Mod+A" = {
+        #   hotkey-overlay.title = "Open App Launcher";
+        #   action.spawn = noctalia "launcher toggle";
+        # };
 
         "Mod+Q" = {
           repeat = false;
           action = close-window;
         };
         "Mod+Shift+Q".action = quit;
-        "Mod+Alt+L" = {
-          hotkey-overlay.title = "Lock Screen";
-          action.spawn = noctalia "lockScreen lock";
-        };
+        # "Mod+Alt+L" = {
+        #   hotkey-overlay.title = "Lock Screen";
+        #   action.spawn = noctalia "lockScreen lock";
+        # };
 
         "Mod+U" = {
           repeat = false;
@@ -249,67 +233,9 @@
       };
     };
   };
-  programs.noctalia-shell = {
+
+  programs.ashell = {
     enable = true;
-    settings = {
-      general = {
-        avatarImage = ./face.png;
-        enableShadows = false;
-        language = "en";
-      };
-
-      dock.enabled = false;
-
-      location = {
-        name = "Portland, OR";
-        useFahrenheit = true;
-        use12hourFormat = true;
-      };
-
-      controlCenter.position = "top_left";
-
-      bar.widgets = {
-        left = [
-          {
-            icon = "rocket";
-            id = "CustomButton";
-            leftClickExec = "noctalia-shell ipc call controlCenter toggle";
-          }
-          {id = "SystemMonitor";}
-          {id = "MediaMini";}
-        ];
-        center = [{id = "Workspace";}];
-        right = [
-          {id = "Tray";}
-          {id = "NotificationHistory";}
-          {id = "Battery";}
-          {id = "Volume";}
-          {id = "Brightness";}
-          {
-            id = "Clock";
-            formatHorizontal = "h:mm ap. ddd, MMM dd";
-          }
-        ];
-      };
-
-      ui = {
-        fontDefualt = config.stylix.fonts.sansSerif.name;
-        fontFixed = config.stylix.fonts.monospace.name;
-      };
-
-      appLauncher.terminalCommand = "kitty";
-
-      wallpaper = {
-        enabled = true;
-        overviewEnabled = true;
-        transitionType = "none";
-      };
-
-      brightness = {
-        brightnessStep = 5;
-        enforceMinimum = false;
-        enableDdcSupport = true;
-      };
-    };
+    package = ashell.packages.${pkgs.system}.default;
   };
 }

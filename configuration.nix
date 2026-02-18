@@ -175,8 +175,6 @@
       hunspell
       hunspellDicts.en_US
       protonup-qt
-      freerdp
-      ddcutil # external monitor brightness
     ];
   };
 
@@ -202,9 +200,7 @@
 
   services.interception-tools = let
     itools = pkgs.interception-tools;
-    itools-caps = pkgs.interception-tools-plugins.caps2esc.overrideAttrs (_: {
-      cmakeFlags = ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"];
-    });
+    itools-caps = pkgs.interception-tools-plugins.caps2esc;
   in {
     enable = true;
     plugins = [itools-caps];
