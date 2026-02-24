@@ -40,7 +40,6 @@
     #kicad
     discord
     vlc
-    inkscape
     wl-clipboard
     protonvpn-gui
   ];
@@ -112,10 +111,6 @@
       rev = "a57272822a7f8ed8aa886414709647032716a776";
       hash = "sha256-c4B3vk/kef7B1u0OiYdb7VWa7qiQeHZ0yxKB5vKZyeE=";
     };
-    voice = pkgs.fetchzip {
-      url = "https://gist.github.com/jtrv/47542c8be6345951802eebcf9dc7da31/archive/c0a71a61e30856989a6dc109b59873e3f3ea697d.zip";
-      hash = "sha256-aaViZbmK0X5y4uYe1bLabEpPGIwhXcztxxW3euPHTvU=";
-    };
   in {
     enable = true;
     extraPresets = {
@@ -127,9 +122,6 @@
       );
       "GentleDynamics Dialogue Clarity Engine" = builtins.fromJSON (
         builtins.readFile "${gentleDynamics}/GentleDynamics Dialogue Clarity Engine.json"
-      );
-      "EasyEffects Microphone Preset: Masc NPR Voice + Noise Reduction" = builtins.fromJSON (
-        builtins.readFile "${voice}/EasyEffects Microphone Preset: Masc NPR Voice + Noise Reduction.json"
       );
     };
     preset = "GentleDynamics Feather Loudness";
@@ -196,8 +188,7 @@
   stylix = {
     enable = true;
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
-    image = ./backgrounds/awesome-tree.jpg;
+    image = ./backgrounds/space.jpg;
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;

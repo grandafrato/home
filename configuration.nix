@@ -97,8 +97,8 @@
   };
   users.groups.libvirtd.members = ["lachlan"];
 
-  # Allow unfree packages
   nixpkgs = {
+    # Allow unfree packages
     config.allowUnfree = true;
     overlays = [inputs.niri.overlays.niri];
   };
@@ -151,8 +151,6 @@
     settings.General.Enable = "Source,Sink,Media,Socket";
   };
 
-  programs.kdeconnect.enable = true;
-
   services.avahi = {
     enable = true;
     nssmdns4 = true;
@@ -178,21 +176,34 @@
     ];
   };
 
-  services.displayManager.cosmic-greeter.enable = true;
+  hardware.brillo.enable = true;
+
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      animation = "colormix";
+      bigclock = "en";
+      brightness_down_cmd = "${lib.getExe pkgs.brillo} -q -U 5";
+      brightness_up_cmd = "${lib.getExe pkgs.brillo} -q -A 5";
+    };
+  };
 
   programs.niri = {
     enable = true;
     package = pkgs.niri-unstable;
   };
 
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      kdePackages.xdg-desktop-portal-kde
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-gnome
-    ];
+  xdg = {
+    sounds.enable = true;
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-cosmic
+        xdg-desktop-portal-gtk
+      ];
+      configPackages = [pkgs.xdg-desktop-portal-cosmic];
+    };
   };
 
   # external monitor brightness
