@@ -98,6 +98,16 @@
   };
   users.groups.libvirtd.members = ["lachlan"];
 
+  # Replace sudo with doas
+  security.sudo.enable = false;
+  security.doas = {
+    enable = true;
+    extraRules = [{
+      keepEnv = true;
+      persist = true;
+    }];
+  };
+
   nixpkgs = {
     # Allow unfree packages
     config.allowUnfree = true;
