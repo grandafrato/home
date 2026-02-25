@@ -26,6 +26,19 @@
     firewall.trustedInterfaces = ["virbr0"];
   };
 
+  services.yggdrasil = {
+    enable = true;
+    persistentKeys = false;
+
+    settings = {
+      Peers = [
+        "quic://ygg-wa.incognet.io:8885"
+        "quic://mn.us.ygg.triplebit.org:443"
+        "quic://leo.node.3dt.net:9004"
+      ];
+    };
+  };
+
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
@@ -102,10 +115,12 @@
   security.sudo.enable = false;
   security.doas = {
     enable = true;
-    extraRules = [{
-      keepEnv = true;
-      persist = true;
-    }];
+    extraRules = [
+      {
+        keepEnv = true;
+        persist = true;
+      }
+    ];
   };
 
   nixpkgs = {
