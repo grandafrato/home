@@ -241,6 +241,7 @@
     package = ashell.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
   programs.fuzzel.enable = true;
+  services.fnott.enable = true;
 
   programs.swaylock.enable = true;
   xdg.configFile."stasis/stasis.rune".source = ./stasis.rune;
