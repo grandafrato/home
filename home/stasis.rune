@@ -1,0 +1,67 @@
+@author "Lachlan Wilger"
+@description "Stasis configuration file"
+
+default_timeout 300
+
+stasis:
+  pre_suspend_command "swaylock"
+  monitor_media true
+  ignore_remote_media true
+
+  respect_idle_inhibitors true
+
+  inhibit_apps [
+    "vlc"
+    r".*\.exe"
+    r"steam_app_.*"
+    r"firefox.*"
+  ]
+
+  on_ac:
+    brightness:
+      timeout 120  # 2 minutes
+      command "brillo -O && brillo -S 0.01"
+      resume-command "brillo -I"
+    end
+
+    dpms:
+      timeout 60 # 1 minute
+      command "niri msg action power-off-monitors"
+      resume-command "niri msg action power-on-monitors"
+    end
+
+    lock_screen:
+      timeout 120 # 2 minutes
+      command "swaylock"
+    end
+
+    suspend:
+      timeout 300 # 5 minutes
+      command "systemctl suspend"
+    end
+  end
+
+  on_battery:
+    brightness:
+      timeout 60  # 1 minute
+      command "brillo -O && brillo -S 0.01"
+      resume-command "brillo -I"
+    end
+
+    dpms:
+      timeout 30  # 30 seconds
+      command "niri msg action power-off-monitors"
+      resume-command "niri msg action power-on-monitors"
+    end
+
+    lock_screen:
+      timeout 120  # 2 minutes
+      command "swaylock"
+    end
+
+    suspend:
+      timeout 120  # 2 minutes
+      command "systemctl suspend"
+    end
+  end
+end

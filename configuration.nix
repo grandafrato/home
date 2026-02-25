@@ -89,6 +89,7 @@
       "kvm"
       "libvirtd"
       "video"
+      "input"
       "gamemode"
       "i2c"
     ];
