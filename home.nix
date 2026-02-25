@@ -50,6 +50,10 @@
 
   programs.firefox = {
     enable = true;
+    profiles.i2p = {
+      path = "oc6x9v4p.i2p";
+      id = 1;
+    };
     profiles.default = {
       path = "xvud1yza.default";
       search.force = true;
@@ -102,7 +106,15 @@
       };
     };
   };
-  stylix.targets.firefox.profileNames = ["default"];
+  stylix.targets.firefox.profileNames = ["default" "i2p"];
+
+  xdg.desktopEntries = {
+    i2p-browser = {
+      name = "i2p Browser";
+      genericName = "Web Browser";
+      exec = "firefox -p i2p";
+    };
+  };
 
   services.easyeffects = let
     gentleDynamics = pkgs.fetchFromGitHub {

@@ -39,6 +39,23 @@
     };
   };
 
+  services.i2pd = {
+    enable = true;
+    address = "127.0.0.1";
+    proto = {
+      http.enable = true;
+      httpProxy.enable = true;
+      socksProxy.enable = true;
+      sam.enable = true;
+    };
+    enableIPv4 = false;
+    enableIPv6 = false;
+    ssu = false;
+    ntcp2.enable = false;
+    ssu2.enable = false;
+    yggdrasil.enable = true;
+  };
+
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
