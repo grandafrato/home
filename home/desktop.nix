@@ -20,6 +20,8 @@
       input = {
         keyboard.numlock = true;
 
+        touch.enable = false;
+
         touchpad = {
           accel-speed = 0.5;
           accel-profile = "adaptive";
@@ -132,11 +134,11 @@
 
         "XF86MonBrightnessUp" = {
           allow-when-locked = true;
-          action.spawn = [(lib.getExe pkgs.brillo) "-q" "-A" "5"];
+          action.spawn = ["brillo" "-q" "-A" "5"];
         };
         "XF86MonBrightnessDown" = {
           allow-when-locked = true;
-          action.spawn = [(lib.getExe pkgs.brillo) "-q" "-U" "5"];
+          action.spawn = ["brillo" "-q" "-U" "5"];
         };
 
         "Mod+T" = {
