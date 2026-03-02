@@ -241,6 +241,23 @@
   programs.ashell = {
     enable = true;
     package = ashell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+    settings = {
+      position = "Bottom";
+
+      modules = {
+        left = ["Workspaces" "SystemInfo"];
+        center = ["WindowTitle"];
+        right = [
+          "Tray"
+          [
+            "Clock"
+            "Privacy"
+            "Settings"
+          ]
+        ];
+      };
+    };
   };
   programs.fuzzel.enable = true;
   services.fnott.enable = true;
