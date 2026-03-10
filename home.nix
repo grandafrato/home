@@ -21,27 +21,25 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    pkgsRocm.blender
-    feather
-    rpcs3
-    kdePackages.ark
     cosmic-files
+    feather
+    gajim
+    kdePackages.ark
     kdePackages.kleopatra
     monero-cli
+    mumble
     p2pool
-    tree
+    pkgsRocm.blender
     prismlauncher
-    rhythmbox
-    wayvr
-    raider
-    tor-browser
-    #freecad-wayland
-    #openscad
-    #kicad
-    discord
-    vlc
-    wl-clipboard
     protonvpn-gui
+    raider
+    rhythmbox
+    rpcs3
+    tor-browser
+    tree
+    vlc
+    wayvr
+    wl-clipboard
   ];
 
   services.protonmail-bridge.enable = true;
