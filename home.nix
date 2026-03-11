@@ -114,29 +114,6 @@
     };
   };
 
-  services.easyeffects = let
-    gentleDynamics = pkgs.fetchFromGitHub {
-      owner = "droidwayin";
-      repo = "GentleDynamics";
-      rev = "a57272822a7f8ed8aa886414709647032716a776";
-      hash = "sha256-c4B3vk/kef7B1u0OiYdb7VWa7qiQeHZ0yxKB5vKZyeE=";
-    };
-  in {
-    enable = true;
-    extraPresets = {
-      GentleDynamics = builtins.fromJSON (
-        builtins.readFile "${gentleDynamics}/GentleDynamics.json"
-      );
-      "GentleDynamics Feather Loudness" = builtins.fromJSON (
-        builtins.readFile "${gentleDynamics}/GentleDynamics Feather Loudness.json"
-      );
-      "GentleDynamics Dialogue Clarity Engine" = builtins.fromJSON (
-        builtins.readFile "${gentleDynamics}/GentleDynamics Dialogue Clarity Engine.json"
-      );
-    };
-    preset = "GentleDynamics Feather Loudness";
-  };
-
   programs.thunderbird = {
     enable = true;
     profiles.default.isDefault = true;
