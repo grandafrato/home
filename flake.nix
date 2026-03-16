@@ -30,10 +30,6 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ashell = {
-      url = "github:MalpenZibo/ashell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
@@ -44,7 +40,6 @@
     nixos-hardware,
     lix-module,
     niri,
-    ashell,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -68,7 +63,7 @@
               niri.homeModules.niri
               niri.homeModules.stylix
             ];
-            extraSpecialArgs = {inherit nixvim niri ashell;};
+            extraSpecialArgs = {inherit nixvim niri;};
           };
         }
         stylix.nixosModules.stylix

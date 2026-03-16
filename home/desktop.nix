@@ -240,7 +240,6 @@
 
   programs.ashell = {
     enable = true;
-    package = ashell.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     settings = {
       position = "Bottom";
