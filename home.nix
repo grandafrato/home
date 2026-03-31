@@ -130,6 +130,10 @@
       v = "nvim";
       nd = "nix develop -c ${pkgs.nushell}/bin/nu";
 
+      # Kitty Stuff
+      icat = "kitten icat";
+      ssh = "kitten ssh";
+
       # Git Aliases
       g = "git";
       ga = "git add";

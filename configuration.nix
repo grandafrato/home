@@ -301,7 +301,7 @@
   # VR stuff
   services.wivrn = {
     enable = true;
-    defaultRuntime = true;
+    steam.enable = true;
     openFirewall = true;
   };
   # boot.kernelPatches = [
