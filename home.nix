@@ -34,6 +34,7 @@
     protonvpn-gui
     raider
     rhythmbox
+    rnote
     rpcs3
     tor-browser
     tree
