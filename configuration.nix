@@ -4,7 +4,7 @@
 {
   pkgs,
   lib,
-  inputs,
+  niriPkgs,
   ...
 }: {
   imports = [
@@ -145,7 +145,6 @@
   nixpkgs = {
     # Allow unfree packages
     config.allowUnfree = true;
-    overlays = [inputs.niri.overlays.niri];
   };
 
   nix.gc = {
@@ -235,7 +234,7 @@
 
   programs.niri = {
     enable = true;
-    package = pkgs.niri-unstable;
+    package = niriPkgs.niri-unstable;
   };
 
   xdg = {

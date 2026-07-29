@@ -2,239 +2,215 @@
   config,
   pkgs,
   lib,
-  ashell,
+  niriPkgs,
   ...
 }: {
-  programs.niri = {
+  wayland.windowManager.niri = {
     enable = true;
-    package = pkgs.niri-unstable;
+    package = niriPkgs.niri-unstable;
+
     settings = {
       spawn-at-startup = [
-        {argv = ["ashell"];}
-        {argv = [(lib.getExe pkgs.swaybg) "-i" config.stylix.image];}
-        {argv = [(lib.getExe pkgs.stasis)];}
+        {_args = ["ashell"];}
+        {_args = [(lib.getExe pkgs.swaybg) "-i" config.stylix.image];}
+        {_args = [(lib.getExe pkgs.stasis)];}
       ];
 
-      hotkey-overlay.skip-at-startup = true;
+      hotkey-overlay.skip-at-startup = [];
 
       input = {
-        keyboard.numlock = true;
+        keyboard.numlock = [];
 
-        touch.enable = false;
+        touch.off = [];
 
         touchpad = {
           accel-speed = 0.5;
           accel-profile = "adaptive";
-          dwt = true;
-          dwtp = true;
+          dwt = [];
+          dwtp = [];
           drag = true;
-          drag-lock = true;
-          natural-scroll = true;
-          tap = true;
+          drag-lock = [];
+          natural-scroll = [];
+          tap = [];
         };
 
         trackpoint = {
-          accel-speed = 0.3;
+          accel-speed = 0.4;
           accel-profile = "flat";
         };
 
-        warp-mouse-to-focus.enable = true;
-        focus-follows-mouse = {
-          enable = true;
+        warp-mouse-to-focus = [];
+        focus-follows-mouse._props = {
           max-scroll-amount = "25%";
         };
       };
 
-      prefer-no-csd = true;
+      prefer-no-csd = [];
 
       layout = {
         gaps = 8;
         center-focused-column = "never";
-        preset-column-widths = [
+        preset-column-widths._children = [
           {proportion = 0.333333;}
           {proportion = 0.5;}
           {proportion = 0.666667;}
         ];
-        default-column-width = {proportion = 0.5;};
-        focus-ring = {
-          enable = true;
-          width = 2;
-        };
-        border.enable = false;
-        shadow.enable = false;
+        default-column-width.proportion = 0.5;
+        focus-ring.width = 2;
+        border.off = [];
+        shadow.off = [];
       };
 
-      gestures.hot-corners.enable = false;
+      gestures.hot-corners.off = [];
 
-      outputs = {
-        "eDP-1" = {
-          enable = true;
+      output = [
+        {
+          _args = ["eDP-1"];
           scale = 0.98; # makes logical size 1952x1220
-          position = {
+          position._props = {
             x = 0;
             y = 1220;
           };
-        };
+        }
 
-        "ASUSTek COMPUTER INC VG275 M8LMQS134325" = {
-          enable = true;
-          mode = {
-            width = 1920;
-            height = 1080;
-            refresh = 74.977;
-          };
+        {
+          _args = ["ASUSTek COMPUTER INC VG275 M8LMQS134325"];
+          mode = "1920x1080@74.977";
           # put screen centered above laptop
-          position = {
+          position._props = {
             x = 16;
             y = 0;
           };
-        };
-      };
-
-      window-rules = [
-        {
-          matches = [
-            {
-              app-id = "firefox$";
-              title = "^Picture-in-Picture$";
-            }
-          ];
-          open-floating = true;
         }
+      ];
+
+      window-rule = [
         {
-          geometry-corner-radius = {
-            bottom-left = 10.0;
-            top-left = 10.0;
-            bottom-right = 10.0;
-            top-right = 10.0;
-          };
+          geometry-corner-radius = 10.0;
           clip-to-geometry = true;
         }
       ];
 
       binds = {
-        "Mod+Shift+Slash".action.show-hotkey-overlay = [];
+        "Mod+Shift+Slash".show-hotkey-overlay = [];
 
         "XF86AudioRaiseVolume" = {
-          allow-when-locked = true;
-          action.spawn = ["wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"];
+          _props.allow-when-locked = true;
+          spawn = ["wpctl" "set-volume" "-l" "1.0" "@DEFAULT_AUDIO_SINK@" "5%+"];
         };
         "XF86AudioLowerVolume" = {
-          allow-when-locked = true;
-          action.spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
+          _props.allow-when-locked = true;
+          spawn = ["wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"];
         };
         "XF86AudioMute" = {
-          allow-when-locked = true;
-          action.spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"];
+          _props.allow-when-locked = true;
+          spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"];
         };
         "XF86AudioMicMute" = {
-          allow-when-locked = true;
-          action.spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"];
+          _props.allow-when-locked = true;
+          spawn = ["wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"];
         };
 
         "XF86MonBrightnessUp" = {
-          allow-when-locked = true;
-          action.spawn = ["brillo" "-q" "-A" "5"];
+          _props.allow-when-locked = true;
+          spawn = ["brillo" "-q" "-A" "5"];
         };
         "XF86MonBrightnessDown" = {
-          allow-when-locked = true;
-          action.spawn = ["brillo" "-q" "-U" "5"];
+          _props.allow-when-locked = true;
+          spawn = ["brillo" "-q" "-U" "5"];
         };
 
         "Mod+T" = {
-          hotkey-overlay.title = "Open Terminal: Kitty";
-          action.spawn = "kitty";
+          _props.hotkey-overlay-title = "Open Terminal: Kitty";
+          spawn = "kitty";
         };
         "Mod+B" = {
-          hotkey-overlay.title = "Open Web Browser: Firefox";
-          action.spawn = "firefox";
+          _props.hotkey-overlay-title = "Open Web Browser: Firefox";
+          spawn = "firefox";
         };
         "Mod+E" = {
-          hotkey-overlay.title = "Open File Explorer";
-          action.spawn = "cosmic-files";
+          _props.hotkey-overlay-title = "Open File Explorer";
+          spawn = "cosmic-files";
         };
 
         "Mod+A" = {
-          hotkey-overlay.title = "Open App Launcher";
-          action.spawn = "fuzzel";
+          _props.hotkey-overlay-title = "Open App Launcher";
+          spawn = "fuzzel";
         };
 
         "Mod+Q" = {
-          repeat = false;
-          action.close-window = [];
+          _props.repeat = false;
+          close-window = [];
         };
-        "Mod+Shift+Q".action.quit = [];
+        "Mod+Shift+Q".quit = [];
         "Mod+Alt+L" = {
-          hotkey-overlay.title = "Lock Screen";
-          action.spawn = "swaylock";
+          _props.hotkey-overlay-title = "Lock Screen";
+          spawn = "swaylock";
         };
 
         "Mod+U" = {
-          repeat = false;
-          action.toggle-overview = [];
+          _props.repeat = false;
+          toggle-overview = [];
         };
 
         "Mod+Escape" = {
-          allow-inhibiting = false;
-          action.toggle-keyboard-shortcuts-inhibit = [];
+          _props.allow-inhibiting = false;
+          toggle-keyboard-shortcuts-inhibit = [];
         };
 
-        "Mod+H".action.focus-column-left = [];
-        "Mod+J".action.focus-window-down = [];
-        "Mod+K".action.focus-window-up = [];
-        "Mod+L".action.focus-column-right = [];
+        "Mod+H".focus-column-left = [];
+        "Mod+J".focus-window-down = [];
+        "Mod+K".focus-window-up = [];
+        "Mod+L".focus-column-right = [];
 
-        "Mod+Shift+H".action.move-column-left = [];
-        "Mod+Shift+J".action.move-window-down = [];
-        "Mod+Shift+K".action.move-window-up = [];
-        "Mod+Shift+L".action.move-column-right = [];
+        "Mod+Shift+H".move-column-left = [];
+        "Mod+Shift+J".move-window-down = [];
+        "Mod+Shift+K".move-window-up = [];
+        "Mod+Shift+L".move-column-right = [];
 
-        "Mod+Ctrl+H".action.focus-monitor-left = [];
-        "Mod+Ctrl+J".action.focus-monitor-down = [];
-        "Mod+Ctrl+K".action.focus-monitor-up = [];
-        "Mod+Ctrl+L".action.focus-monitor-right = [];
+        "Mod+Ctrl+H".focus-monitor-left = [];
+        "Mod+Ctrl+J".focus-monitor-down = [];
+        "Mod+Ctrl+K".focus-monitor-up = [];
+        "Mod+Ctrl+L".focus-monitor-right = [];
 
-        "Mod+Shift+Ctrl+H".action.move-window-to-monitor-left = [];
-        "Mod+Shift+Ctrl+J".action.move-window-to-monitor-down = [];
-        "Mod+Shift+Ctrl+K".action.move-window-to-monitor-up = [];
-        "Mod+Shift+Ctrl+L".action.move-window-to-monitor-right = [];
+        "Mod+Shift+Ctrl+H".move-window-to-monitor-left = [];
+        "Mod+Shift+Ctrl+J".move-window-to-monitor-down = [];
+        "Mod+Shift+Ctrl+K".move-window-to-monitor-up = [];
+        "Mod+Shift+Ctrl+L".move-window-to-monitor-right = [];
 
-        "Mod+O".action.focus-workspace-down = [];
-        "Mod+I".action.focus-workspace-up = [];
-        "Mod+Shift+O".action.move-column-to-workspace-down = [];
-        "Mod+Shift+I".action.move-column-to-workspace-up = [];
-        "Mod+Ctrl+O".action.move-workspace-down = [];
-        "Mod+Ctrl+I".action.move-workspace-up = [];
+        "Mod+O".focus-workspace-down = [];
+        "Mod+I".focus-workspace-up = [];
+        "Mod+Shift+O".move-column-to-workspace-down = [];
+        "Mod+Shift+I".move-column-to-workspace-up = [];
+        "Mod+Ctrl+O".move-workspace-down = [];
+        "Mod+Ctrl+I".move-workspace-up = [];
 
-        "Mod+BracketLeft".action.consume-or-expel-window-left = [];
-        "Mod+BracketRight".action.consume-or-expel-window-right = [];
-        "Mod+Comma".action.consume-window-into-column = [];
-        "Mod+Period".action.expel-window-from-column = [];
+        "Mod+BracketLeft".consume-or-expel-window-left = [];
+        "Mod+BracketRight".consume-or-expel-window-right = [];
+        "Mod+Comma".consume-window-into-column = [];
+        "Mod+Period".expel-window-from-column = [];
 
-        "Mod+R".action.switch-preset-column-width = [];
-        "Mod+Ctrl+R".action.reset-window-height = [];
-        "Mod+F".action.maximize-column = [];
-        "Mod+Shift+F".action.fullscreen-window = [];
-        "Mod+Ctrl+F".action.expand-column-to-available-width = [];
+        "Mod+R".switch-preset-column-width = [];
+        "Mod+Ctrl+R".reset-window-height = [];
+        "Mod+F".maximize-column = [];
+        "Mod+Shift+F".fullscreen-window = [];
+        "Mod+Ctrl+F".expand-column-to-available-width = [];
 
-        "Mod+C".action.center-column = [];
-        "Mod+Ctrl+C".action.center-visible-columns = [];
+        "Mod+C".center-column = [];
+        "Mod+Ctrl+C".center-visible-columns = [];
 
-        "Mod+Minus".action.set-column-width = "-10%";
-        "Mod+Equal".action.set-column-width = "+10%";
-        "Mod+Shift+Minus".action.set-window-height = "-10%";
-        "Mod+Shift+Equal".action.set-window-height = "+10%";
+        "Mod+Minus".set-column-width = "-10%";
+        "Mod+Equal".set-column-width = "+10%";
+        "Mod+Shift+Minus".set-window-height = "-10%";
+        "Mod+Shift+Equal".set-window-height = "+10%";
 
-        "Mod+V".action.toggle-window-floating = [];
-        "Mod+Shift+V".action.switch-focus-between-floating-and-tiling = [];
+        "Mod+V".toggle-window-floating = [];
+        "Mod+Shift+V".switch-focus-between-floating-and-tiling = [];
 
-        "Mod+W".action.toggle-column-tabbed-display = [];
+        "Mod+W".toggle-column-tabbed-display = [];
       };
 
-      xwayland-satellite = {
-        enable = true;
-        path = lib.getExe pkgs.xwayland-satellite-unstable;
-      };
+      xwayland-satellite.path = lib.getExe niriPkgs.xwayland-satellite-unstable;
     };
   };
 
@@ -250,7 +226,7 @@
         right = [
           "Tray"
           [
-            "Clock"
+            "Tempo"
             "Privacy"
             "Settings"
           ]
@@ -258,7 +234,13 @@
       };
     };
   };
-  programs.fuzzel.enable = true;
+  programs.fuzzel = {
+    enable = true;
+    settings.main = {
+      terminal = "${pkgs.kitty}/bin/kitty";
+      dpi-aware = true;
+    };
+  };
   services.fnott.enable = true;
 
   programs.swaylock.enable = true;

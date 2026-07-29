@@ -3,7 +3,6 @@
   pkgs,
   lib,
   nixvim,
-  niri,
   ...
 }: {
   home.username = "lachlan";
@@ -13,7 +12,6 @@
 
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [niri.overlays.niri];
   };
 
   imports = [nixvim.homeModules.nixvim ./home/desktop.nix];
@@ -35,7 +33,7 @@
     raider
     rhythmbox
     rnote
-    rpcs3
+    #rpcs3
     tor-browser
     tree
     vlc
