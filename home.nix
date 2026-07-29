@@ -29,11 +29,11 @@
     p2pool
     pkgsRocm.blender
     prismlauncher
-    protonvpn-gui
+    proton-vpn
     raider
     rhythmbox
     rnote
-    #rpcs3
+    rpcs3
     tor-browser
     tree
     vlc
@@ -47,6 +47,7 @@
 
   programs.firefox = {
     enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     profiles.i2p = {
       path = "oc6x9v4p.i2p";
       id = 1;
@@ -199,6 +200,7 @@
       size = 24;
     };
   };
+  home.pointerCursor.enable = true;
 
   programs.btop.enable = true;
   programs.bat.enable = true;

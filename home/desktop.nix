@@ -13,7 +13,6 @@
       spawn-at-startup = [
         {_args = ["ashell"];}
         {_args = [(lib.getExe pkgs.swaybg) "-i" config.stylix.image];}
-        {_args = [(lib.getExe pkgs.stasis)];}
       ];
 
       hotkey-overlay.skip-at-startup = [];
@@ -244,5 +243,4 @@
   services.fnott.enable = true;
 
   programs.swaylock.enable = true;
-  xdg.configFile."stasis/stasis.rune".source = ./stasis.rune;
 }
