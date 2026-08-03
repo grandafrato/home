@@ -28,11 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
-    niri-nixpkgs.url = "github:nixos/nixpkgs?rev=c8c029256f3d21e57f0901e97d181a2d336bfd62";
-    niri-nix = {
-      url = "git+https://codeberg.org/BANanaD3V/niri-nix";
-      inputs.nixpkgs.follows = "niri-nixpkgs";
-    };
+    niri-nix.url = "git+https://codeberg.org/BANanaD3V/niri-nix";
   };
 
   outputs = {

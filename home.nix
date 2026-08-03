@@ -20,20 +20,15 @@
 
   home.packages = with pkgs; [
     cosmic-files
-    feather
-    gajim
     kdePackages.ark
     kdePackages.kleopatra
     monero-cli
-    mumble
-    p2pool
     pkgsRocm.blender
     prismlauncher
     proton-vpn
     raider
     rhythmbox
     rnote
-    rpcs3
     tor-browser
     tree
     vlc
